@@ -23,11 +23,9 @@ final class Endpoint implements IEndpoint{
 
         return this.webClient.get()
                 .uri(uriBuilder ->
-                        uriBuilder
-                                .queryParam(requestFilters)
-                                .queryParam(requestStructures.replace("{", "%7B" ).replace("}", "%7D"))
-                                .build()
-                )
+                        uriBuilder.queryParam(
+                                requestFilters.concat(requestStructures.replace("{", "%7B" ).replace("}", "%7D")))
+                                .build())
                 .retrieve()
                 .bodyToFlux(CovidResponse.class)
                 .map(CovidResponse::getData);

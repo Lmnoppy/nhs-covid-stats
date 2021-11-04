@@ -3,11 +3,15 @@ package com.lmnoppy.api.covid.endpoints;
 import com.lmnoppy.api.covid.model.CovidResponse;
 import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.enums.Area;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
+import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 final class Endpoint implements IEndpoint{
 
     private static final String baseURL= "https://api.coronavirus.data.gov.uk/v1/data?";
@@ -26,9 +30,17 @@ final class Endpoint implements IEndpoint{
                         uriBuilder.queryParam(
                                 requestFilters.concat(requestStructures.replace("{", "%7B" ).replace("}", "%7D")))
                                 .build())
-                .retrieve()
-                .bodyToFlux(CovidResponse.class)
-                .map(CovidResponse::getData);
+                .exchangeToFlux(clientResponse -> {
+                    if (clientResponse.statusCode().equals(HttpStatus.OK)) {
+                        return clientResponse.bodyToFlux(CovidResponse.class).map(CovidResponse::getData);
+                    } else if (clientResponse.statusCode().is4xxClientError()) {
+                        //TODO:Handle this
+                        return Flux.just(Collections.emptyList());
+                    } else {
+                        //TODO:Handle this
+                        return Flux.just(Collections.emptyList());
+                    }
+                });
     }
 
     @Override

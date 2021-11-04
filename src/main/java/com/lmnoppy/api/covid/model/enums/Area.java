@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum Area {
     SCOTLAND("Scotland", "","", "", "", ""),
     WALES("Wales","", "", "", "", ""),
-    NORTHERNIRELAND("", "", "", "", "", ""),
+    NORTHERNIRELAND("Northern Ireland", "", "", "", "", ""),
     ENGLAND("England", "", "", "", "", "");
 
     private String nation;

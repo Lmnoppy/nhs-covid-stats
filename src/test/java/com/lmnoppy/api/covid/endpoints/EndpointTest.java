@@ -19,7 +19,9 @@ class EndpointTest {
         endpoint = new Endpoint();
 
         Flux<List<Metrics>> covidResponseFlux = endpoint.getCovidStatsForNationArea(Area.ENGLAND);
-        covidResponseFlux.subscribe(covidResponse -> log.info(covidResponse.toString()));
+        covidResponseFlux.subscribe(covidResponse ->
+                System.out.println(covidResponse.toString())
+    );
 
     }
 

@@ -1,27 +1,36 @@
 package com.lmnoppy.api.covid.endpoints;
 
 import com.lmnoppy.api.covid.model.CovidResponse;
+import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.enums.Area;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 final class Endpoint implements IEndpoint{
 
     private static final String baseURL= "https://api.coronavirus.data.gov.uk/v1/data?";
+    private WebClient webClient;
 
-    public Flux<CovidResponse> getCovidStatsForNationArea(Area area) {
-        String requestURL = "filters=areaName=" + area.name() +";areaType=nation&"
-                + "structure={\"date\":\"date\",\"name\":\"areaName\",\"code\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\",\"cumDeaths28DaysByPublishDate\":\"cumDeaths28DaysByPublishDate\"}";
+    public Endpoint() {
+        this.webClient = WebClient.builder().baseUrl(baseURL).build();
+    }
 
-        WebClient webClient = WebClient.create(baseURL);
+    public Flux<List<Metrics>> getCovidStatsForNationArea(Area area) {
+        String requestFilters = "filters=areaName=" + area.getNation() +";areaType=nation&";
+        String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\",\"cumDeaths28DaysByPublishDate\":\"cumDeaths28DaysByPublishDate\"}";
 
-        return webClient.post()
-                .uri(requestURL)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        return this.webClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .queryParam(requestFilters)
+                                .queryParam(requestStructures.replace("{", "%7B" ).replace("}", "%7D"))
+                                .build()
+                )
                 .retrieve()
-                .bodyToFlux(CovidResponse.class);
+                .bodyToFlux(CovidResponse.class)
+                .map(CovidResponse::getData);
     }
 
     @Override

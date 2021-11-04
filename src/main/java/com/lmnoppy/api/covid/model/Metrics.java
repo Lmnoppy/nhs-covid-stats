@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class Metrics {
 
+    private String date;
+    private String areaName;
     private String newCasesByPublishDate;
     private String cumCasesByPublishDate;
     private String newDeaths28DaysByPublishDate;

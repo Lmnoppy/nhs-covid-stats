@@ -1,10 +1,13 @@
 package com.lmnoppy.api.covid.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Area {
-    SCOTLAND("scotland", "","", "", "", ""),
-    WALES("wales","", "", "", "", ""),
-    NORTHERNIRELAND("northern_ireland", "", "", "", "", ""),
-    ENGLAND("england", "", "", "", "", "");
+    SCOTLAND("Scotland", "","", "", "", ""),
+    WALES("Wales","", "", "", "", ""),
+    NORTHERNIRELAND("", "", "", "", "", ""),
+    ENGLAND("England", "", "", "", "", "");
 
     private String nation;
     private String region;

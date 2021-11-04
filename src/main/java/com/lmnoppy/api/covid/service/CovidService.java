@@ -1,9 +1,11 @@
 package com.lmnoppy.api.covid.service;
 
 import com.lmnoppy.api.covid.endpoints.IEndpoint;
-import com.lmnoppy.api.covid.model.CovidResponse;
+import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.enums.Area;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 final class CovidService implements ICovid {
 
@@ -14,7 +16,7 @@ final class CovidService implements ICovid {
     }
 
     @Override
-    public Flux<CovidResponse> fetchCovidStatsForCountry(Area area) {
+    public Flux<List<Metrics>> fetchCovidStatsForCountry(Area area) {
         return iEndpoint.getCovidStatsForNationArea(area);
     }
 

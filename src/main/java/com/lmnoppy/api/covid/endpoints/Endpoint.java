@@ -30,17 +30,9 @@ final class Endpoint implements IEndpoint{
                         uriBuilder.queryParam(
                                 requestFilters.concat(requestStructures.replace("{", "%7B" ).replace("}", "%7D")))
                                 .build())
-                .exchangeToFlux(clientResponse -> {
-                    if (clientResponse.statusCode().equals(HttpStatus.OK)) {
-                        return clientResponse.bodyToFlux(CovidResponse.class).map(CovidResponse::getData);
-                    } else if (clientResponse.statusCode().is4xxClientError()) {
-                        //TODO:Handle this
-                        return Flux.just(Collections.emptyList());
-                    } else {
-                        //TODO:Handle this
-                        return Flux.just(Collections.emptyList());
-                    }
-                });
+                .retrieve()
+                .bodyToFlux(CovidResponse.class)
+                .map(CovidResponse::getData);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.lmnoppy.api.covid.endpoints;
 
+import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.Metrics;
 import lombok.extern.slf4j.Slf4j;
@@ -22,28 +23,20 @@ final class Endpoint implements IEndpoint{
     }
 
     @Override
-    public Flux<List<String>> covidStatsForScotland(List<Metrics> metrics, LocalDate date) {
-        //areaType=nation&release=2021-12-01&metric=cumCasesByPublishDate&format=json&areaCode=S92000003
+    public Flux<List<Response>> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
         WebClient webClient = WebClient.create();
-        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + Area.SCOTLAND.getAreaCode();
+        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + area.getAreaCode();
         return webClient.post()
                 .uri(requestURL)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToFlux(CovidResponse.class);
-    }
-
-    @Override
-    public Flux<List<String>> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
-        WebClient webClient = WebClient.create();
-        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + area.getAreaCode();
-        return null;
+                .bodyToFlux(CovidResponse.class);;
     }
 
     private String metricURLBuilder(List<Metrics> metricsList) {
         StringBuilder stringBuilder = new StringBuilder();
         metricsList.forEach(metrics -> {
-            stringBuilder.append("metric=").append(metrics.getClass().).append("&");
+            stringBuilder.append("metric=").append(metrics.getValue()).append("&");
         });
         return stringBuilder.toString();
     }

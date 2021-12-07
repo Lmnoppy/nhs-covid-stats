@@ -43,7 +43,7 @@ final class Endpoint implements IEndpoint{
     private String metricURLBuilder(List<Metrics> metricsList) {
         StringBuilder stringBuilder = new StringBuilder();
         metricsList.forEach(metrics -> {
-            stringBuilder.append("metric=").append(metrics.getValue()).append("&");
+            stringBuilder.append("metric=").append(metrics.getClass().).append("&");
         });
         return stringBuilder.toString();
     }

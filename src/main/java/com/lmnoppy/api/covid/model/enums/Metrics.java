@@ -1,16 +1,12 @@
 package com.lmnoppy.api.covid.model.enums;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
-public enum Metrics {
+@Data
+public class Metrics {
 
-    CUM_CASES_BY_PUBLISH_DATE("cumCasesByPublishDate")
-    ;
+    private int cumCasesByPublishDate;
 
-    private final String value;
 
-    Metrics(String value) {
-        this.value = value;
-    }
 }

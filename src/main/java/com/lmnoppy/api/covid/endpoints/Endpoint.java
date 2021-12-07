@@ -1,42 +1,51 @@
 package com.lmnoppy.api.covid.endpoints;
 
-import com.lmnoppy.api.covid.model.CovidResponse;
-import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.enums.Area;
+import com.lmnoppy.api.covid.model.enums.Metrics;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
-import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
 final class Endpoint implements IEndpoint{
 
-    private static final String baseURL= "https://api.coronavirus.data.gov.uk/v1/data?";
-    private WebClient webClient;
+    private static final String baseURL= "https://coronavirus.data.gov.uk/api/v2/data?";
+    private final WebClient webClient;
 
     public Endpoint() {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Flux<List<Metrics>> getCovidStatsForNationArea(Area area) {
-        String requestFilters = "filters=areaName=" + area.getNation() +";areaType=nation&";
-        String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\",\"cumDeaths28DaysByPublishDate\":\"cumDeaths28DaysByPublishDate\"}";
-
-        return this.webClient.get()
-                .uri(uriBuilder ->
-                        uriBuilder.queryParam(
-                                requestFilters.concat(requestStructures.replace("{", "%7B" ).replace("}", "%7D")))
-                                .build())
+    @Override
+    public Flux<List<String>> covidStatsForScotland(List<Metrics> metrics, LocalDate date) {
+        //areaType=nation&release=2021-12-01&metric=cumCasesByPublishDate&format=json&areaCode=S92000003
+        WebClient webClient = WebClient.create();
+        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + Area.SCOTLAND.getAreaCode();
+        return webClient.post()
+                .uri(requestURL)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToFlux(CovidResponse.class)
-                .map(CovidResponse::getData);
+                .bodyToFlux(CovidResponse.class);
     }
 
     @Override
-    public Flux<String> getCovidStatsForRegion(String region) {
+    public Flux<List<String>> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
+        WebClient webClient = WebClient.create();
+        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + area.getAreaCode();
         return null;
     }
+
+    private String metricURLBuilder(List<Metrics> metricsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        metricsList.forEach(metrics -> {
+            stringBuilder.append("metric=").append(metrics.getValue()).append("&");
+        });
+        return stringBuilder.toString();
+    }
+
 }

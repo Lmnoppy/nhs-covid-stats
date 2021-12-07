@@ -2,24 +2,27 @@ package com.lmnoppy.api.covid.model.enums;
 
 import lombok.Getter;
 
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 public enum Area {
-    SCOTLAND("Scotland", "","", "", "", ""),
-    WALES("Wales","", "", "", "", ""),
-    NORTHERNIRELAND("Northern Ireland", "", "", "", "", ""),
-    ENGLAND("England", "", "", "", "", "");
+    SCOTLAND(Nation.SCOTLAND, "", Collections.emptyList(), "", "", ""),
+    WALES(Nation.WALES,"", Collections.emptyList(), "", "", ""),
+    NORTHERN_IRELAND(Nation.NORTHERN_IRELAND, "", Collections.emptyList(), "", "", ""),
+    ENGLAND(Nation.ENGLAND, "", Collections.emptyList(), "", "", "");
 
-    private String nation;
-    private String region;
-    private String nhsRegion;
-    private String utla;
-    private String ltla;
-    private String areaCode;
+    private final Nation nation;
+    private final String region;
+    private final List<String> nhsRegions;
+    private final String utla;
+    private final String ltla;
+    private final String areaCode;
 
-    Area(String nation, String region, String nhsRegion, String utla, String ltla, String areaCode){
+    Area(Nation nation, String region, List<String> nhsRegions, String utla, String ltla, String areaCode){
         this.nation = nation;
         this.region = region;
-        this.nhsRegion = nhsRegion;
+        this.nhsRegions = nhsRegions;
         this.utla = utla;
         this.ltla = ltla;
         this.areaCode = areaCode;

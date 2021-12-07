@@ -1,6 +1,5 @@
 package com.lmnoppy.api.covid.endpoints;
 
-import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.enums.Area;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

@@ -1,14 +1,13 @@
 package com.lmnoppy.api.covid.endpoints;
 
-import com.lmnoppy.api.covid.model.Metrics;
-import com.lmnoppy.api.covid.model.enums.Area;
+import com.lmnoppy.api.covid.model.enums.Metrics;
 import reactor.core.publisher.Flux;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public sealed interface IEndpoint permits Endpoint {
 
-    Flux<List<Metrics>> getCovidStatsForNationArea(Area area);
-    Flux<String> getCovidStatsForRegion(String region);
+    Flux<List<String>> covidStatsForScotlandNationArea(List<Metrics> metrics, LocalDate date);
 
 }

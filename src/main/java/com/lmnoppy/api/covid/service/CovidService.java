@@ -1,26 +1,28 @@
 package com.lmnoppy.api.covid.service;
 
 import com.lmnoppy.api.covid.ICovid;
-import com.lmnoppy.api.covid.endpoints.IEndpoint;
+import com.lmnoppy.api.covid.endpoints.CovidBulkApiEndPoint;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.Metrics;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
 import java.util.List;
 
-final class CovidService implements ICovid {
+@Service
+public class CovidService implements ICovid {
 
-    private IEndpoint iEndpoint;
+    private final CovidBulkApiEndPoint covidBulkApiEndPoint;
     
-    public CovidService(IEndpoint iEndpoint) {
-        this.iEndpoint = iEndpoint;
+    public CovidService(final CovidBulkApiEndPoint covidBulkApiEndPoint) {
+        this.covidBulkApiEndPoint = covidBulkApiEndPoint;
     }
 
     @Override
-    public Flux<List<Response>> fetchCovidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
-        return iEndpoint.covidStatsForNation(area, metrics, date);
+    public Flux<Response> fetchCovidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
+        return covidBulkApiEndPoint.covidStatsForNation(area, metrics, date);
     }
 
 }

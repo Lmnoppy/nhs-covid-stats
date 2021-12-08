@@ -1,10 +1,16 @@
 package com.lmnoppy.api.covid.model;
 
-import com.lmnoppy.api.covid.model.enums.Area;
+import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Response {
+@Data
+public class Response implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -1496910593772770020L;
 
     //Example response
     //{"areaType":"nation","areaCode":"S92000003","areaName":"Scotland","date":"2021-12-01","newCasesByPublishDate":2796}

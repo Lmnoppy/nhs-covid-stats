@@ -13,24 +13,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
-final class Endpoint implements IEndpoint{
+public class CovidBulkApiEndPoint {
 
     private static final String baseURL= "https://coronavirus.data.gov.uk/api/v2/data?";
     private final WebClient webClient;
 
-    public Endpoint() {
+    public CovidBulkApiEndPoint() {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    @Override
-    public Flux<List<Response>> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
-        WebClient webClient = WebClient.create();
-        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "&" + "format=json&areaCode=" + area.getAreaCode();
+    public Flux<Response> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
+        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "format=json&areaCode=" + area.getAreaCode();
         return webClient.post()
-                .uri(requestURL)
+                .uri(urlBuilder)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToFlux(CovidResponse.class);;
+                .bodyToFlux(Response.class);
     }
 
     private String metricURLBuilder(List<Metrics> metricsList) {

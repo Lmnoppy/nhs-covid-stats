@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter
 public enum Area {
-    SCOTLAND(Nation.SCOTLAND, "", Collections.emptyList(), "", "", ""),
-    WALES(Nation.WALES,"", Collections.emptyList(), "", "", ""),
-    NORTHERN_IRELAND(Nation.NORTHERN_IRELAND, "", Collections.emptyList(), "", "", ""),
-    ENGLAND(Nation.ENGLAND, "", Collections.emptyList(), "", "", "");
+    SCOTLAND(Nation.SCOTLAND, "", Collections.emptyList(), "", "", "S92000003"),
+    WALES(Nation.WALES,"", Collections.emptyList(), "", "", "W92000004"),
+    NORTHERN_IRELAND(Nation.NORTHERN_IRELAND, "", Collections.emptyList(), "", "", "N92000002"),
+    ENGLAND(Nation.ENGLAND, "", Collections.emptyList(), "", "", "E92000001");
 
     private final Nation nation;
     private final String region;

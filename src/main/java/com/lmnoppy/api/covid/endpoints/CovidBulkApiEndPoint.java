@@ -1,11 +1,11 @@
 package com.lmnoppy.api.covid.endpoints;
 
+import com.lmnoppy.api.covid.model.Filters;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
-import com.lmnoppy.api.covid.model.enums.Metrics;
+import com.lmnoppy.api.covid.model.Metrics;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
@@ -23,20 +23,20 @@ public class CovidBulkApiEndPoint {
     }
 
     public Flux<Response> covidStatsForNation(Area area, List<Metrics> metrics, LocalDate date) {
-        String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "format=json&areaCode=" + area.getAreaCode();
-        return webClient.post()
-                .uri(urlBuilder)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .retrieve()
-                .bodyToFlux(Response.class);
+        //String urlBuilder = baseURL + "areaType=nation&" + date.toString() + "&" + metricURLBuilder(metrics) + "format=json&areaCode=" + area.getAreaCode();
+        //return webClient.post()
+        //        .uri(urlBuilder)
+        //        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        //        .retrieve().bodyToFlux(Response.class);
+        return null;
     }
 
-    private String metricURLBuilder(List<Metrics> metricsList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        metricsList.forEach(metrics -> {
-            stringBuilder.append("metric=").append(metrics.getValue()).append("&");
-        });
-        return stringBuilder.toString();
-    }
+    //private String metricURLBuilder(List<Filters> metricsList) {
+    //    StringBuilder stringBuilder = new StringBuilder();
+    //    metricsList.forEach(metrics -> {
+    //        stringBuilder.append("metric=").append(metrics.getValue()).append("&");
+    //    });
+    //    return stringBuilder.toString();
+    //}
 
 }

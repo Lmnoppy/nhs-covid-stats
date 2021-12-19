@@ -24,7 +24,7 @@ public class CovidApiEndPoint {
 
     public Flux<List<Metrics>> covidStatsForNation(Area area, List<Metrics> structureList) {
         String requestFilters = "filters=areaName=" + area.getNation() +";areaType=nation&";
-        String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\",\"cumDeaths28DaysByPublishDate\":\"cumDeaths28DaysByPublishDate\"}";
+        String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\"}";
 
         return webClient.get()
                 .uri(uriBuilder ->
@@ -43,15 +43,15 @@ public class CovidApiEndPoint {
     }
 
     //Response example
-    //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22, cumDeaths28DaysByPublishDate=9746),
-    // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6, cumDeaths28DaysByPublishDate=9725),
-    // Metrics(date=2021-12-13, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3756, cumCasesByPublishDate=769642, newDeaths28DaysByPublishDate=0, cumDeaths28DaysByPublishDate=9719),
-    // Metrics(date=2021-12-12, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4002, cumCasesByPublishDate=765889, newDeaths28DaysByPublishDate=0, cumDeaths28DaysByPublishDate=9719),
-    // Metrics(date=2021-12-11, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4087, cumCasesByPublishDate=761889, newDeaths28DaysByPublishDate=12, cumDeaths28DaysByPublishDate=9719),
-    // Metrics(date=2021-12-10, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5018, cumCasesByPublishDate=757813, newDeaths28DaysByPublishDate=19, cumDeaths28DaysByPublishDate=9707),
-    // Metrics(date=2021-12-09, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3196, cumCasesByPublishDate=752805, newDeaths28DaysByPublishDate=16, cumDeaths28DaysByPublishDate=9688),
-    // Metrics(date=2021-12-08, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3077, cumCasesByPublishDate=749620, newDeaths28DaysByPublishDate=11, cumDeaths28DaysByPublishDate=9672),
-    // Metrics(date=2021-12-07, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3060, cumCasesByPublishDate=746549, newDeaths28DaysByPublishDate=12, cumDeaths28DaysByPublishDate=9661),
-    // Metrics(date=2021-12-06, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3894, cumCasesByPublishDate=743496, newDeaths28DaysByPublishDate=0, cumDeaths28DaysByPublishDate=9649)],
+    //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22)
+    // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6)
+    // Metrics(date=2021-12-13, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3756, cumCasesByPublishDate=769642, newDeaths28DaysByPublishDate=0)
+    // Metrics(date=2021-12-12, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4002, cumCasesByPublishDate=765889, newDeaths28DaysByPublishDate=0)
+    // Metrics(date=2021-12-11, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4087, cumCasesByPublishDate=761889, newDeaths28DaysByPublishDate=12)
+    // Metrics(date=2021-12-10, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5018, cumCasesByPublishDate=757813, newDeaths28DaysByPublishDate=19)
+    // Metrics(date=2021-12-09, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3196, cumCasesByPublishDate=752805, newDeaths28DaysByPublishDate=16)
+    // Metrics(date=2021-12-08, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3077, cumCasesByPublishDate=749620, newDeaths28DaysByPublishDate=11)
+    // Metrics(date=2021-12-07, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3060, cumCasesByPublishDate=746549, newDeaths28DaysByPublishDate=12)
+    // Metrics(date=2021-12-06, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3894, cumCasesByPublishDate=743496, newDeaths28DaysByPublishDate=0)]
 
 }

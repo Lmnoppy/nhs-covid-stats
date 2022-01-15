@@ -1,6 +1,5 @@
 package com.lmnoppy.api.covid.endpoints;
 
-import com.lmnoppy.api.covid.model.Filters;
 import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;

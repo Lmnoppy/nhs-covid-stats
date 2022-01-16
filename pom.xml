@@ -63,8 +63,4 @@
         </repository>
     </distributionManagement>
 
-    <build>
-        <finalName>covid-uk-stats</finalName>
-    </build>
-
 </project>

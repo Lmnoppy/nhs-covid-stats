@@ -7,6 +7,7 @@
     <groupId>com.lmnoppy.api.covid</groupId>
     <artifactId>covid-uk-stats</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>Covid UK Stats</name>
 
     <parent>

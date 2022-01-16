@@ -3,6 +3,7 @@ package com.lmnoppy.api.covid.endpoints;
 import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
+import com.lmnoppy.api.covid.model.enums.AreaType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,14 +22,13 @@ public class CovidApiEndPoint {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Flux<List<Metrics>> covidStatsForNation(Area area, List<Metrics> structureList) {
-        String requestFilters = "filters=areaName=" + area.getNation() +";areaType=nation&";
+    public Flux<List<Metrics>> covidStatsForNation(Area area, AreaType areaType, List<Metrics> structureList) {
         String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\"}";
 
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .queryParam(requestFilters)
+                                .queryParam("filters=areaName=" + area.getNation() +";areaType=nation&")
                                 .queryParam(requestStructures
                                         .replace("{", "%7B" )
                                         .replace("\"", "%22")
@@ -41,11 +41,22 @@ public class CovidApiEndPoint {
                 .map(Response::getData);
     }
 
+    private String buildRequestFilters(Area area, AreaType areaType){
+        StringBuilder s = new StringBuilder("filters=");
+        switch (areaType) {
+            case NATION -> s.append("areaName=").append(area.getNation()).append(";areaType=nation");
+            case REGION -> s.append("areaName=").append(area.getRegion()).append(";areaType=region");
+            case LTLA, UTLA, NHSREGION -> throw new IllegalArgumentException("Valid filter but currently not set up, please see Jira: ABC");
+            default -> throw new IllegalArgumentException("Unrecognized filter");
+        }
+        return s.append("&").toString();
+    }
+
     private String buildRequestStructures(List<Metrics> structureList){
         StringBuilder s = new StringBuilder("structure={");
-        structureList.forEach(metric -> {
-            s.append("\"").append(metric).append("\"").append(":").append("\"").append(metric).append("\"").append(",");
-        });
+        structureList.forEach(metric ->
+                s.append("\"").append(metric).append("\"").append(":").append("\"").append(metric).append("\"").append(",")
+        );
         return s.deleteCharAt(s.length() - 1).append("}").toString()
                 .replace("{", "%7B")
                 .replace("\"", "%22")

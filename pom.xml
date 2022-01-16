@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lmnoppy.api.covid</groupId>
-    <artifactId>covid-uk-lib</artifactId>
+    <artifactId>covid-uk-stats</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <name>Covid UK Stats</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -52,5 +53,17 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>covid19-uk-lib</name>
+            <url>https://maven.pkg.github.com/doi-health/domain</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <finalName>covid-uk-stats</finalName>
+    </build>
 
 </project>

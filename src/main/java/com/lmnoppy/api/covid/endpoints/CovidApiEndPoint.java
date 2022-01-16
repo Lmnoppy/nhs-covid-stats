@@ -41,6 +41,17 @@ public class CovidApiEndPoint {
                 .map(Response::getData);
     }
 
+    private String buildRequestStructures(List<Metrics> structureList){
+        StringBuilder s = new StringBuilder("structure={");
+        structureList.forEach(metric -> {
+            s.append("\"").append(metric).append("\"").append(":").append("\"").append(metric).append("\"").append(",");
+        });
+        return s.deleteCharAt(s.length() - 1).append("}").toString()
+                .replace("{", "%7B")
+                .replace("\"", "%22")
+                .replace("}", "%7D");
+    }
+
     //Response example
     //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22)
     // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6)

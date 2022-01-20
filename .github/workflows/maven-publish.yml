@@ -6,13 +6,17 @@ on:
   push:
     branches:
       [main, release/*]
+  pull_request:
+    branches:
+      [main, release/*]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
+      issues: write
 
     steps:
     - uses: actions/checkout@v2

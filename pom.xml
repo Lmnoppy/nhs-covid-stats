@@ -65,8 +65,8 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>covid-uk-stats</name>
-            <url>https://github.com/Lmnoppy/covid19-uk-lib</url>
+            <name>Covid UK stats</name>
+            <url>https://maven.pkg.github.com/Lmnoppy/covid19-uk-lib</url>
         </repository>
     </distributionManagement>
 

@@ -1,13 +1,16 @@
 # WORK IN PROGRESS
-# covid19-uk-lib
-A library that fetches the latest Covid-19 stats from the UK Government API. 
+# Covid19 UK LIB
+A library that fetches the latest Covid-19 stats from the NHS UK API.
 
-# API Source 
+## Build Status 
+![Build status](https://github.com/Lmnoppy/covid19-uk-lib/tree/main/.github/workflows/maven-publish.yml/badge.svg?branch=main)
+![Last security scan status](https://github.com/Lmnoppy/covid19-uk-lib/tree/main/.github/workflows/codeql-analysis.yml/badge.svg?branch=main)
 
-# Start up
+## API Source
 
-# API details
 
-# Resources 
-## Java 17 
+## Library API details
+
+## Resources 
+#### Java 17 
 https://www.microsoft.com/openjdk 

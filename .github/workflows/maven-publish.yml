@@ -31,6 +31,6 @@ jobs:
       run: mvn --B --update-snapshots verify
 
     - name: Publsih to GitHub Packages Apache Maven
-      run: mvn deploy -s -B deploy
+      run: mvn deploy -s -B
       env:
         GITHUB_TOKEN: ${{ github.token }}

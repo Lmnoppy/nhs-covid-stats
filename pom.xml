@@ -6,7 +6,7 @@
 
     <groupId>com.lmnoppy.api.covid</groupId>
     <artifactId>covid-uk-stats</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -19,6 +19,9 @@
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <!--version overrides -->
+        <log4j.version>2.17.0</log4j.version>
 
         <!-- Build tools -->
         <jsoup.version>1.14.3</jsoup.version>

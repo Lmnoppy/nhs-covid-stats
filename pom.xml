@@ -6,7 +6,7 @@
 
     <groupId>com.lmnoppy.api.covid</groupId>
     <artifactId>covid-uk-stats</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -16,16 +16,24 @@
     </parent>
 
     <properties>
+        <!-- Project properties -->
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <!--version overrides -->
+        <!-- Version overrides -->
         <log4j.version>2.17.0</log4j.version>
 
-        <!-- Build tools -->
+        <!-- Spring -->
+        <!-- Security -->
         <jsoup.version>1.14.3</jsoup.version>
+        <!-- Tests -->
+        <okhttp.version>4.0.1</okhttp.version>
+        <mockwebserver.version>4.0.1</mockwebserver.version>
+        <!-- Build tools -->
         <maven.compiler.version>3.9.0</maven.compiler.version>
+        <!-- Other -->
+        <jackson-databind.version>2.13.1</jackson-databind.version>
     </properties>
 
     <dependencies>
@@ -51,6 +59,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>${mockwebserver.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Build Tools -->
         <dependency>
@@ -63,6 +88,14 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>${maven.compiler.version}</version>
         </dependency>
+
+        <!-- Other -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+
     </dependencies>
 
     <distributionManagement>

@@ -4,6 +4,7 @@ import com.lmnoppy.api.covid.model.Metrics;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.AreaType;
+import com.lmnoppy.api.covid.model.enums.MetricsEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,24 +16,20 @@ import java.util.List;
 @Slf4j
 public class CovidApiEndPoint {
 
-    private static final String baseURL= "https://api.coronavirus.data.gov.uk/v1/data?";
     private final WebClient webClient;
 
-    public CovidApiEndPoint() {
+    public CovidApiEndPoint(final String baseURL) {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Flux<List<Metrics>> covidStatsForNation(Area area, AreaType areaType, List<Metrics> structureList) {
-        String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\"}";
+    public Flux<List<Metrics>> covidStatsForNation(Area area, AreaType areaType, List<MetricsEnum> structureList) {
+        //String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\"}";
 
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .queryParam("filters=areaName=" + area.getNation() +";areaType=nation&")
-                                .queryParam(requestStructures
-                                        .replace("{", "%7B" )
-                                        .replace("\"", "%22")
-                                        .replace("}", "%7D"))
+                                .queryParam(buildRequestFilters(area, areaType))
+                                .queryParam(buildRequestStructures(structureList))
                                 .build()
                 )
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -46,16 +43,16 @@ public class CovidApiEndPoint {
         switch (areaType) {
             case NATION -> s.append("areaName=").append(area.getNation()).append(";areaType=nation");
             case REGION -> s.append("areaName=").append(area.getRegion()).append(";areaType=region");
-            case LTLA, UTLA, NHSREGION -> throw new IllegalArgumentException("Valid filter but currently not set up, please see Jira: ABC");
+            case LTLA, UTLA, NHSREGION -> throw new IllegalArgumentException("Valid filter but currently not supported, please see Jira: ABC");
             default -> throw new IllegalArgumentException("Unrecognized filter");
         }
         return s.append("&").toString();
     }
 
-    private String buildRequestStructures(List<Metrics> structureList){
+    private String buildRequestStructures(List<MetricsEnum> structureList){
         StringBuilder s = new StringBuilder("structure={");
         structureList.forEach(metric ->
-                s.append("\"").append(metric).append("\"").append(":").append("\"").append(metric).append("\"").append(",")
+                s.append("\"").append(metric.getMetricNameValue()).append("\"").append(":").append("\"").append(metric.getMetricNameValue()).append("\"").append(",")
         );
         return s.deleteCharAt(s.length() - 1).append("}").toString()
                 .replace("{", "%7B")

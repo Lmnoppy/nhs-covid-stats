@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface ICovid  {
 
-    Flux<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
+    Flux<List<MetricsData>> nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
 }

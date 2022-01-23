@@ -21,7 +21,7 @@ public class CovidService implements ICovid {
     }
 
     @Override
-    public Flux<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
+    public Flux<List<MetricsData>> nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
          return nhsCovidEndPoint.covidStatsFor(area, areaType, metrics);
     }
 

@@ -60,17 +60,4 @@ public class NHSCovidEndPoint {
                 .replace("\"", "%22")
                 .replace("}", "%7D");
     }
-
-    //Response example
-    //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22)
-    // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6)
-    // Metrics(date=2021-12-13, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3756, cumCasesByPublishDate=769642, newDeaths28DaysByPublishDate=0)
-    // Metrics(date=2021-12-12, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4002, cumCasesByPublishDate=765889, newDeaths28DaysByPublishDate=0)
-    // Metrics(date=2021-12-11, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4087, cumCasesByPublishDate=761889, newDeaths28DaysByPublishDate=12)
-    // Metrics(date=2021-12-10, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5018, cumCasesByPublishDate=757813, newDeaths28DaysByPublishDate=19)
-    // Metrics(date=2021-12-09, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3196, cumCasesByPublishDate=752805, newDeaths28DaysByPublishDate=16)
-    // Metrics(date=2021-12-08, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3077, cumCasesByPublishDate=749620, newDeaths28DaysByPublishDate=11)
-    // Metrics(date=2021-12-07, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3060, cumCasesByPublishDate=746549, newDeaths28DaysByPublishDate=12)
-    // Metrics(date=2021-12-06, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3894, cumCasesByPublishDate=743496, newDeaths28DaysByPublishDate=0)]
-
 }

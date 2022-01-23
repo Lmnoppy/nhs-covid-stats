@@ -3,7 +3,7 @@ package com.lmnoppy.api.covid.model.enums;
 import lombok.Getter;
 
 @Getter
-public enum MetricsEnum {
+public enum Metrics {
 
     DATE("date"),
     AREA_NAME("areaName"),
@@ -15,7 +15,7 @@ public enum MetricsEnum {
 
     private final String metricNameValue;
 
-    MetricsEnum(String metricNameValue) {
+    Metrics(String metricNameValue) {
         this.metricNameValue = metricNameValue;
     }
 }

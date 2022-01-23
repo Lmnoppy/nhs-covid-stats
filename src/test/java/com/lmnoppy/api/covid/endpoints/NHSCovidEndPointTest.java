@@ -2,10 +2,11 @@ package com.lmnoppy.api.covid.endpoints;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lmnoppy.api.covid.model.Metrics;
+import com.lmnoppy.api.covid.model.MetricsData;
+import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.AreaType;
-import com.lmnoppy.api.covid.model.enums.MetricsEnum;
+import com.lmnoppy.api.covid.model.enums.Metrics;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -22,9 +23,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CovidApiEndPointTest {
+class NHSCovidEndPointTest {
 
-    private CovidApiEndPoint covidApiEndPoint;
+    private NHSCovidEndPoint NHSCovidEndPoint;
     private static MockWebServer mockBackEnd;
     private ObjectMapper objectMapper;
 
@@ -43,18 +44,18 @@ class CovidApiEndPointTest {
     void initialize() {
         objectMapper = new ObjectMapper();
         String baseUrl = String.format("http://localhost:%s", mockBackEnd.getPort());
-        covidApiEndPoint = new CovidApiEndPoint(baseUrl);
+        NHSCovidEndPoint = new NHSCovidEndPoint(baseUrl);
     }
 
     @Test
-    void covidStatsForNation() throws InterruptedException {
-        List<MetricsEnum> requestStructures = requestStructuresBuilder();
+    void covidStatsForNation() throws InterruptedException, JsonProcessingException {
+        List<Metrics> requestStructures = requestStructuresBuilder();
 
         mockBackEnd.enqueue(new MockResponse()
                 .setBody(metricsResponseBuilder())
                 .addHeader("Content-Type", "application/json"));
 
-        Flux<List<Metrics>> testFlux = covidApiEndPoint.covidStatsForNation(Area.SCOTLAND, AreaType.NATION, requestStructures);
+        Flux<List<MetricsData>> testFlux = NHSCovidEndPoint.covidStatsFor(Area.SCOTLAND, AreaType.NATION, requestStructures);
 
         StepVerifier.create(testFlux)
                 .expectNextMatches(metric -> metric.get(0).getAreaName().equals("Scotland"))
@@ -63,24 +64,28 @@ class CovidApiEndPointTest {
         RecordedRequest recordedRequest = mockBackEnd.takeRequest();
 
         assertEquals("GET", recordedRequest.getMethod());
-        assertEquals("/employee/100", recordedRequest.getPath());
+        assertEquals("/?filters%3DareaName%3DScotland;areaType%3Dnation%26&structure%3D%257B"
+                + "%2522date%2522:%2522date%2522,%2522areaName%2522:%2522areaName%2522,%2522areaCode%2522:%2522areaCode%2522,"
+                + "%2522newCasesByPublishDate%2522:%2522newCasesByPublishDate%2522,%2522cumCasesByPublishDate%2522:%2522cumCasesByPublishDate%2522,"
+                + "%2522newDeaths28DaysByPublishDate%2522:%2522newDeaths28DaysByPublishDate%2522,%2522cumDeaths28DaysByPublishDate%2522:%2522cumDeaths28DaysByPublishDate%2522,"
+                + "%2522cumCasesByPublishDate%2522:%2522cumCasesByPublishDate%2522%257D", recordedRequest.getPath());
     }
 
-    private List<MetricsEnum> requestStructuresBuilder(){
+    private List<Metrics> requestStructuresBuilder(){
         //String requestStructures= "structure={\"date\":\"date\",\"areaName\":\"areaName\",\"areaCode\":\"areaCode\",\"newCasesByPublishDate\":\"newCasesByPublishDate\",\"cumCasesByPublishDate\":\"cumCasesByPublishDate\",\"newDeaths28DaysByPublishDate\":\"newDeaths28DaysByPublishDate\"}";
-        List<MetricsEnum> requestStructures = new ArrayList<>();
-        requestStructures.add(MetricsEnum.DATE);
-        requestStructures.add(MetricsEnum.AREA_NAME);
-        requestStructures.add(MetricsEnum.AREA_CODE);
-        requestStructures.add(MetricsEnum.NEW_CASES_BY_PUBLISH_DATE);
-        requestStructures.add(MetricsEnum.CUM_CASES_BY_PUBLISH_DATE);
-        requestStructures.add(MetricsEnum.NEW_DEATHS_28_DAYS_BY_PUBLISH_DATE);
-        requestStructures.add(MetricsEnum.CUM_DEATHS_28_DAYS_BY_PUBLISH_DATE);
-        requestStructures.add(MetricsEnum.CUM_CASES_BY_PUBLISH_DATE);
+        List<Metrics> requestStructures = new ArrayList<>();
+        requestStructures.add(Metrics.DATE);
+        requestStructures.add(Metrics.AREA_NAME);
+        requestStructures.add(Metrics.AREA_CODE);
+        requestStructures.add(Metrics.NEW_CASES_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.CUM_CASES_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.NEW_DEATHS_28_DAYS_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.CUM_DEATHS_28_DAYS_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.CUM_CASES_BY_PUBLISH_DATE);
         return requestStructures;
     }
 
-    private String metricsResponseBuilder(){
+    private String metricsResponseBuilder() throws JsonProcessingException {
         //Response example
         //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22)
         // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6)
@@ -88,11 +93,11 @@ class CovidApiEndPointTest {
         // Metrics(date=2021-12-12, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4002, cumCasesByPublishDate=765889, newDeaths28DaysByPublishDate=0)
         // Metrics(date=2021-12-11, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4087, cumCasesByPublishDate=761889, newDeaths28DaysByPublishDate=12)]
 
-        Metrics m1 = new Metrics();
-        Metrics m2 = new Metrics();
-        Metrics m3 = new Metrics();
-        Metrics m4 = new Metrics();
-        Metrics m5 = new Metrics();
+        MetricsData m1 = new MetricsData();
+        MetricsData m2 = new MetricsData();
+        MetricsData m3 = new MetricsData();
+        MetricsData m4 = new MetricsData();
+        MetricsData m5 = new MetricsData();
 
         m1.setDate("2021-12-15");
         m1.setAreaName("Scotland");
@@ -129,13 +134,19 @@ class CovidApiEndPointTest {
         m5.setCumCasesByPublishDate("765889");
         m5.setNewDeaths28DaysByPublishDate("12");
 
-        List<Metrics> mockResponse = new ArrayList<>();
+        List<MetricsData> mockResponse = new ArrayList<>();
         mockResponse.add(m1);
         mockResponse.add(m2);
         mockResponse.add(m3);
         mockResponse.add(m4);
         mockResponse.add(m5);
-        return mockResponse.toString();
+
+        Response response = new Response();
+        response.setLength("5");
+        response.setMaxPageLimit("2500");
+        response.setData(mockResponse);
+
+        return objectMapper.writeValueAsString(response);
     }
 
 

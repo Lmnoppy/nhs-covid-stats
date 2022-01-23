@@ -1,5 +1,5 @@
 # WORK IN PROGRESS
-# Covid19 UK LIB
+## Covid19 UK LIB
 A library that fetches the latest Covid-19 stats from the NHS UK API.
 
 ## Build Status 
@@ -7,7 +7,6 @@ A library that fetches the latest Covid-19 stats from the NHS UK API.
 ![Last security scan status](https://github.com/Lmnoppy/covid19-uk-lib/.github/workflows/codeql-analysis.yml/badge.svg?branch=main)
 
 ## API Source
-
 
 ## Library API details
 

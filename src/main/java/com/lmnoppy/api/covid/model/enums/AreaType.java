@@ -1,5 +1,8 @@
 package com.lmnoppy.api.covid.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AreaType {
     OVERVIEW("overview", "Overview data for the United Kingdom"),
     NATION("nation", "Nation data (England, Northern Ireland, Scotland, and Wales)"),
@@ -8,10 +11,10 @@ public enum AreaType {
     UTLA("utla", "Upper-tier local authority data"),
     LTLA("ltla", "Lower-tier local authority data");
 
-    private String id;
-    private String description;
+    private final String id;
+    private final String description;
 
-    AreaType(String id, String description){
+    AreaType(final String id, final String description){
         this.id = id;
         this.description = description;
     }

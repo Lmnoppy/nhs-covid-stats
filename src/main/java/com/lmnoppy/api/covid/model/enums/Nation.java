@@ -1,5 +1,8 @@
 package com.lmnoppy.api.covid.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Nation {
 
     SCOTLAND("Scotland"),
@@ -7,11 +10,10 @@ public enum Nation {
     NORTHERN_IRELAND("Northern Ireland"),
     ENGLAND("England");
 
-    private String name;
+    private final String name;
 
-    Nation(String name){
+    Nation(final String name){
         this.name = name;
-
     }
 
 }

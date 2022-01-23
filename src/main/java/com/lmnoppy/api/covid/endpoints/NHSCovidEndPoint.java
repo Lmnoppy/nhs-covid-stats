@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class NHSCovidEndPoint {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Flux<List<MetricsData>> covidStatsFor(Area area, AreaType areaType, List<Metrics> structureList) {
+    public Mono<List<MetricsData>> covidStatsFor(Area area, AreaType areaType, List<Metrics> structureList) {
         log.debug(baseURL+buildRequestFilters(area, areaType)+buildRequestStructures(structureList));
         return webClient.get()
                 .uri(uriBuilder ->
@@ -35,7 +35,7 @@ public class NHSCovidEndPoint {
                 )
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToFlux(Response.class)
+                .bodyToMono(Response.class)
                 .map(Response::getData);
     }
 

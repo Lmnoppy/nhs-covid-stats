@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
@@ -55,10 +56,10 @@ class NHSCovidEndPointTest {
                 .setBody(metricsResponseBuilder())
                 .addHeader("Content-Type", "application/json"));
 
-        Flux<List<MetricsData>> testFlux = NHSCovidEndPoint.covidStatsFor(Area.SCOTLAND, AreaType.NATION, requestStructures);
+        Mono<List<MetricsData>> testMono = NHSCovidEndPoint.covidStatsFor(Area.SCOTLAND, AreaType.NATION, requestStructures);
 
-        StepVerifier.create(testFlux)
-                .expectNextMatches(metric -> metric.get(0).getAreaName().equals("Scotland"))
+        StepVerifier.create(testMono)
+                .expectNextMatches(metric -> metric.get(0).getAreaName().equals("Scotland") && metric.get(0).getDate().equals("2021-12-15"))
                 .verifyComplete();
 
         RecordedRequest recordedRequest = mockBackEnd.takeRequest();
@@ -86,13 +87,6 @@ class NHSCovidEndPointTest {
     }
 
     private String metricsResponseBuilder() throws JsonProcessingException {
-        //Response example
-        //[Metrics(date=2021-12-15, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=5155, cumCasesByPublishDate=777885, newDeaths28DaysByPublishDate=22)
-        // Metrics(date=2021-12-14, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3117, cumCasesByPublishDate=772738, newDeaths28DaysByPublishDate=6)
-        // Metrics(date=2021-12-13, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=3756, cumCasesByPublishDate=769642, newDeaths28DaysByPublishDate=0)
-        // Metrics(date=2021-12-12, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4002, cumCasesByPublishDate=765889, newDeaths28DaysByPublishDate=0)
-        // Metrics(date=2021-12-11, areaName=Scotland, areaCode=S92000003, newCasesByPublishDate=4087, cumCasesByPublishDate=761889, newDeaths28DaysByPublishDate=12)]
-
         MetricsData m1 = new MetricsData();
         MetricsData m2 = new MetricsData();
         MetricsData m3 = new MetricsData();

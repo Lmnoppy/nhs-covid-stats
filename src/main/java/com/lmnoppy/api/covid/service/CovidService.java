@@ -7,7 +7,7 @@ import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.enums.AreaType;
 import com.lmnoppy.api.covid.model.enums.Metrics;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class CovidService implements ICovid {
     }
 
     @Override
-    public Flux<List<MetricsData>> nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
+    public Mono<List<MetricsData>> nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
          return nhsCovidEndPoint.covidStatsFor(area, areaType, metrics);
     }
 

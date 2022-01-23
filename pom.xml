@@ -6,7 +6,7 @@
 
     <groupId>com.lmnoppy.api.covid</groupId>
     <artifactId>covid-uk-stats</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -28,8 +28,8 @@
         <!-- Security -->
         <jsoup.version>1.14.3</jsoup.version>
         <!-- Tests -->
-        <okhttp.version>4.0.1</okhttp.version>
-        <mockwebserver.version>4.0.1</mockwebserver.version>
+        <okhttp.version>4.9.3</okhttp.version>
+        <mockwebserver.version>4.9.3</mockwebserver.version>
         <!-- Build tools -->
         <maven.compiler.version>3.9.0</maven.compiler.version>
         <!-- Other -->

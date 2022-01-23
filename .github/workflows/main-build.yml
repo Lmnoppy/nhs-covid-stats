@@ -2,8 +2,7 @@ name: "Main build"
 
 on:
   push:
-    branches:
-      [main, release/**]
+    branches: [main]
 
 jobs:
   build:
@@ -24,8 +23,3 @@ jobs:
 
     - name: Build with Maven
       run: mvn --B --update-snapshots verify
-
-    - name: Publsih to GitHub Packages
-      run: mvn --batch-mode deploy
-      env:
-        GITHUB_TOKEN: ${{ github.token }}

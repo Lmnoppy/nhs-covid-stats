@@ -3,7 +3,7 @@
 A library that fetches the latest Covid-19 stats from a source (currently only the NHS UK API).
 
 ### Build Status 
-![Build status](https://github.com/Lmnoppy/covid-stats/actions/workflows/maven-publish.yml/badge.svg?branch=main)   ![Last security scan status](https://github.com/Lmnoppy/covid-stats/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
+![Build status](https://github.com/Lmnoppy/covid-stats/actions/workflows/main-build.yml/badge.svg?branch=main) ![Release branch status](https://github.com/Lmnoppy/covid-stats/actions/workflows/release-build-publish.yml/badge.svg?branch=main)   ![Last security scan status](https://github.com/Lmnoppy/covid-stats/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
 
 #### Library API
 

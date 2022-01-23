@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lmnoppy.api.covid</groupId>
-    <artifactId>covid-uk-stats</artifactId>
-    <version>1.0.5</version>
+    <artifactId>covid-stats</artifactId>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -101,8 +101,8 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>Covid UK stats</name>
-            <url>https://maven.pkg.github.com/Lmnoppy/covid19-uk-lib</url>
+            <name>Covid stats</name>
+            <url>https://maven.pkg.github.com/Lmnoppy/covid-stats</url>
         </repository>
     </distributionManagement>
 

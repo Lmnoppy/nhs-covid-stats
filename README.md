@@ -1,16 +1,17 @@
 # WORK IN PROGRESS
-## Covid19 UK LIB
-A library that fetches the latest Covid-19 stats from the NHS UK API.
+## Covid Stats endpoints
+A library that fetches the latest Covid-19 stats from a source (currently only the NHS UK API).
 
-## Build Status 
-![Build status](https://github.com/Lmnoppy/covid-stats/.github/workflows/maven-publish.yml/badge.svg?branch=main)   
+### Build Status 
+![Build status](https://github.com/Lmnoppy/covid-stats/actions/workflows/maven-publish.yml/badge.svg?branch=main)   ![Last security scan status](https://github.com/Lmnoppy/covid-stats/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
 
-![Last security scan status](https://github.com/Lmnoppy/covid-stats/.github/workflows/codeql-analysis.yml/badge.svg?branch=main)
+#### Library API
 
-## API Source
+###### nhsFetchCovidStatsFor
+Currently, supports getting COVID-19 stats for a given nation in the UK from the NHS API. Support for Region and NHS Region will 
+be added at a later date. 
+nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)
 
-## Library API details
-
-## Resources 
-#### Java 17 
+#### Resources 
+###### Java 17 
 https://www.microsoft.com/openjdk 

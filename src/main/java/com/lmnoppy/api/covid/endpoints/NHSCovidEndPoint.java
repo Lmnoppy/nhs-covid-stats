@@ -17,20 +17,18 @@ import java.util.List;
 public class NHSCovidEndPoint {
 
     private final WebClient webClient;
-    private final String baseURL;
 
     public NHSCovidEndPoint(final String baseURL) {
-        this.baseURL = baseURL;
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Mono<List<MetricsData>> covidStatsFor(Area area, AreaType areaType, List<Metrics> structureList) {
-        log.debug(baseURL+buildRequestFilters(area, areaType)+buildRequestStructures(structureList));
+    public Mono<List<MetricsData>> covidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
+        log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString() );
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
                                 .queryParam(buildRequestFilters(area, areaType))
-                                .queryParam(buildRequestStructures(structureList))
+                                .queryParam(buildRequestStructures(metricsList))
                                 .build()
                 )
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

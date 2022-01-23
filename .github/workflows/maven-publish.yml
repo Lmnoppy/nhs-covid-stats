@@ -1,4 +1,4 @@
-name: "Main build & publish"
+name: "Main build"
 
 on:
   push:

@@ -19,8 +19,8 @@ public class CovidService implements ICovid {
     }
 
     @Override
-    public Mono<List<MetricsData>> nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
-         return endpointRegistry.getNHSCovidEndPoint().covidStatsFor(area, areaType, metrics);
+    public Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics) {
+         return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(area, areaType, metrics);
     }
 
 }

@@ -8,7 +8,7 @@ public class EndpointRegistry {
         this.nhsCovidEndPoint = endpointRegistryBuilder.nhsCovidEndPoint;
     }
 
-    public NHSCovidEndPoint getNHSCovidEndPoint() {
+    public NHSCovidEndPoint nhsCovidEndPoint() {
         return nhsCovidEndPoint;
     }
 

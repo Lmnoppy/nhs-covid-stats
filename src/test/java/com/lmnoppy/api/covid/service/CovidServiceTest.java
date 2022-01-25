@@ -37,16 +37,16 @@ class CovidServiceTest {
 
     @Test
     void nhsFetchCovidStatsFor() {
-        Mockito.when(endpointRegistry.getNHSCovidEndPoint()).thenReturn(nhsCovidEndPoint);
-        Mockito.when(nhsCovidEndPoint.covidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
+        Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
 
-        Mono<List<MetricsData>> listMono = covidService.nhsFetchCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
+        Mono<List<MetricsData>> listMono = covidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
 
         assertNotNull(listMono);
         assertEquals(Area.SCOTLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
 
-        Mockito.verify(endpointRegistry, Mockito.times(1)).getNHSCovidEndPoint();
-        Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).covidStatsFor(any(Area.class), any(AreaType.class), anyList());
+        Mockito.verify(endpointRegistry, Mockito.times(1)).nhsCovidEndPoint();
+        Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(endpointRegistry);
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
     }

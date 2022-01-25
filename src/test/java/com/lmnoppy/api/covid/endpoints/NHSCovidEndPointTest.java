@@ -58,7 +58,7 @@ class NHSCovidEndPointTest {
                 .setBody(metricsResponseBuilder(area))
                 .addHeader("Content-Type", "application/json"));
 
-        Mono<List<MetricsData>> testMono = NHSCovidEndPoint.covidStatsFor(area, AreaType.NATION, requestStructures);
+        Mono<List<MetricsData>> testMono = NHSCovidEndPoint.fetchCovidStatsFor(area, AreaType.NATION, requestStructures);
 
         StepVerifier.create(testMono)
                 .expectNextMatches(metric ->

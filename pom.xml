@@ -6,7 +6,7 @@
 
     <groupId>com.lmnoppy.api.covid</groupId>
     <artifactId>covid-stats</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <parent>

@@ -22,7 +22,7 @@ public class NHSCovidEndPoint {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
 
-    public Mono<List<MetricsData>> covidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
+    public Mono<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
         log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString() );
         return webClient.get()
                 .uri(uriBuilder ->

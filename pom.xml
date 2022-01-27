@@ -18,8 +18,6 @@
     <properties>
         <!-- Project properties -->
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Version overrides -->
         <log4j.version>2.17.0</log4j.version>

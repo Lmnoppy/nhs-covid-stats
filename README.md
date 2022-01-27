@@ -16,7 +16,7 @@ nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)
 
 #### Versions
 
-##### Java 17 
+##### Java 11 
 https://www.microsoft.com/openjdk 
 
 #### Guides

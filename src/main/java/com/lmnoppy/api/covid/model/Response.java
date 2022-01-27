@@ -3,7 +3,6 @@ package com.lmnoppy.api.covid.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -1496910593772770020L;
 
     private String length;

@@ -40,10 +40,17 @@ public class NHSCovidEndPoint {
     private String buildRequestFilters(Area area, AreaType areaType){
         StringBuilder s = new StringBuilder("filters=");
         switch (areaType) {
-            case NATION -> s.append("areaName=").append(area.getNation().getName()).append(";areaType=nation");
-            case REGION -> s.append("areaName=").append(area.getRegion()).append(";areaType=region");
-            case LTLA, UTLA, NHSREGION -> throw new IllegalArgumentException("Valid filter, but currently not supported, please see Jira: ABC");
-            default -> throw new IllegalArgumentException("Unrecognized filter");
+            case NATION:
+                    s.append("areaName=").append(area.getNation().getName()).append(";areaType=nation");
+                break;
+            case REGION : s.append("areaName=").append(area.getRegion()).append(";areaType=region");
+                break;
+            case LTLA:
+            case UTLA:
+            case NHSREGION:
+                throw new IllegalArgumentException("Valid filter, but currently not supported, please see Jira: ABC");
+            default:
+                throw new IllegalArgumentException("Unrecognized filter");
         }
         return s.append("&").toString();
     }

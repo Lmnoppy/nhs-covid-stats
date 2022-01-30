@@ -1,22 +1,39 @@
 # WORK IN PROGRESS
-## Covid Stats endpoints
+
+
+# Covid Stats Lib
 A library that fetches the latest Covid-19 stats from a source (currently only the NHS UK API).
 
-### Build Status 
-![Build status](https://github.com/Lmnoppy/covid-stats/actions/workflows/main-build.yml/badge.svg?branch=main) ![Latest release branch status](https://github.com/Lmnoppy/covid-stats/actions/workflows/release-build-publish.yml/badge.svg?branch=release/v1)   ![Last security scan status](https://github.com/Lmnoppy/covid-stats/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
+## Build Status 
+![Build status](https://github.com/Lmnoppy/covid-stats/actions/workflows/main-build.yml/badge.svg?branch=main) ![Latest release branch status](https://github.com/Lmnoppy/covid-stats/actions/workflows/release-build-publish.yml/badge.svg?branch=release/v1)   ![Last security scan status](https://github.com/Lmnoppy/covid-stats/actions/workflows/codeql-analysis.yml/badge.svg?branch=main) [![Total alerts](https://img.shields.io/lgtm/alerts/g/Lmnoppy/covid-stats.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Lmnoppy/covid-stats/alerts/)
 
-### Library API
+## TODO:
+* Add LTLA, UTLA and NHSREGION to the NHSCovidEndpoint
+* Add additional sources the world
+* Add integration testing (Cucumber)
+* Add validations
+* ~~Add Github build and scan actions~~
+* ~~Add Github deployment action to Github Packages~~
 
-#### fetchNHSCovidStatsFor
-Currently, supports getting COVID-19 stats for a given nation in the UK from the NHS API. Support for Region and NHS Region will 
-be added at a later date. 
+## Requirements
+Covid-Stats uses the following plugins and tools
+
+### Java
+* Java 11 - https://www.microsoft.com/openjdk
+
+## API details
+
+### fetchNHSCovidStatsFor
+Currently, supports getting COVID-19 stats for a given nation in the UK from the NHS API. Support for Region and NHS Region will
+be added at a later date.
 nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)
 
-### Resources
 
-#### Versions
+## Resources
+The following links are the guides I used to make this project.
 
-##### Java 11 
-https://www.microsoft.com/openjdk 
+### Guides
+TODO: describe the data model
 
-#### Guides
+#### NHS API
+https://coronavirus.data.gov.uk/ 

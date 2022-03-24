@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum AreaType {
     OVERVIEW("overview", "Overview data for the United Kingdom"),
-    NATION("nation", "Nation data (England, Northern Ireland, Scotland, and Wales)"),
+    NATION("nation", "Nation data"),
     REGION("region", "Region data"),
     NHSREGION("nhsRegion", "NHS Region data"),
     UTLA("utla", "Upper-tier local authority data"),

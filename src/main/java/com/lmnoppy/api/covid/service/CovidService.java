@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.lmnoppy.api.covid.model.enums.Area.SCOTLAND;
+import static com.lmnoppy.api.covid.model.enums.Area.*;
 import static com.lmnoppy.api.covid.model.enums.AreaType.NATION;
 
 public class CovidService implements ICovid {
@@ -28,22 +28,22 @@ public class CovidService implements ICovid {
 
     @Override
     public Mono<List<MetricsData>> fetchAllScotlandData() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, List.of(Metrics.values()));
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, SCOTLAND.getNation().getSupportedMetrics());
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllEnglandData() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, List.of(Metrics.values()));
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(ENGLAND, NATION, ENGLAND.getNation().getSupportedMetrics());
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllWalesData() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, List.of(Metrics.values()));
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(WALES, NATION, WALES.getNation().getSupportedMetrics());
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllNorthernIrelandData() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, List.of(Metrics.values()));
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(NORTHERN_IRELAND, NATION, NORTHERN_IRELAND.getNation().getSupportedMetrics());
     }
 
 }

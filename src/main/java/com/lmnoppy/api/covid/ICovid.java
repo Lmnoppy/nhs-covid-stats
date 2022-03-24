@@ -11,4 +11,9 @@ import java.util.List;
 public interface ICovid  {
 
     Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
+
+    Mono<List<MetricsData>> fetchAllScotlandData();
+    Mono<List<MetricsData>> fetchAllEnglandData();
+    Mono<List<MetricsData>> fetchAllWalesData();
+    Mono<List<MetricsData>> fetchAllNorthernIrelandData();
 }

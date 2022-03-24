@@ -10,10 +10,18 @@ import java.util.List;
 
 public interface ICovid  {
 
+    /**
+     * Reusable generic service call
+     * @param area Area name that you are searching for
+     * @param areaType This can be nation, NHS region etc...
+     * @param metrics The metics you wish to return, please note, that not all Area types support all metrics
+     * @return returns a mono list of the metrics.
+     */
     Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
 
-    Mono<List<MetricsData>> fetchAllScotlandData();
-    Mono<List<MetricsData>> fetchAllEnglandData();
-    Mono<List<MetricsData>> fetchAllWalesData();
-    Mono<List<MetricsData>> fetchAllNorthernIrelandData();
+
+    Mono<List<MetricsData>> fetchAllSupportedNationDataForScotland();
+    Mono<List<MetricsData>> fetchAllSupportedNationDataForEngland();
+    Mono<List<MetricsData>> fetchAllSupportedNationDataForWales();
+    Mono<List<MetricsData>> fetchAllSupportedNationDataForNorthernIreland();
 }

@@ -27,22 +27,22 @@ public class CovidService implements ICovid {
     }
 
     @Override
-    public Mono<List<MetricsData>> fetchAllScotlandData() {
+    public Mono<List<MetricsData>> fetchAllSupportedNationDataForScotland() {
         return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, SCOTLAND.getNation().getSupportedMetrics());
     }
 
     @Override
-    public Mono<List<MetricsData>> fetchAllEnglandData() {
+    public Mono<List<MetricsData>> fetchAllSupportedNationDataForEngland() {
         return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(ENGLAND, NATION, ENGLAND.getNation().getSupportedMetrics());
     }
 
     @Override
-    public Mono<List<MetricsData>> fetchAllWalesData() {
+    public Mono<List<MetricsData>> fetchAllSupportedNationDataForWales() {
         return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(WALES, NATION, WALES.getNation().getSupportedMetrics());
     }
 
     @Override
-    public Mono<List<MetricsData>> fetchAllNorthernIrelandData() {
+    public Mono<List<MetricsData>> fetchAllSupportedNationDataForNorthernIreland() {
         return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(NORTHERN_IRELAND, NATION, NORTHERN_IRELAND.getNation().getSupportedMetrics());
     }
 

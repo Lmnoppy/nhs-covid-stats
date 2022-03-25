@@ -9,9 +9,11 @@ import com.lmnoppy.api.covid.model.enums.Metrics;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.lmnoppy.api.covid.model.enums.Area.*;
 import static com.lmnoppy.api.covid.model.enums.AreaType.NATION;
+import static java.util.function.Predicate.not;
 
 public class CovidService implements ICovid {
 
@@ -28,22 +30,22 @@ public class CovidService implements ICovid {
 
     @Override
     public Mono<List<MetricsData>> fetchAllSupportedNationDataForScotland() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, SCOTLAND.getNation().getSupportedMetrics());
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(SCOTLAND, NATION, SCOTLAND.getNation().getSupportedMetrics().stream().filter(not(Metrics::getIsDeprecated)).collect(Collectors.toList()));
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllSupportedNationDataForEngland() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(ENGLAND, NATION, ENGLAND.getNation().getSupportedMetrics());
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(ENGLAND, NATION, ENGLAND.getNation().getSupportedMetrics().stream().filter(not(Metrics::getIsDeprecated)).collect(Collectors.toList()));
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllSupportedNationDataForWales() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(WALES, NATION, WALES.getNation().getSupportedMetrics());
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(WALES, NATION, WALES.getNation().getSupportedMetrics().stream().filter(not(Metrics::getIsDeprecated)).collect(Collectors.toList()));
     }
 
     @Override
     public Mono<List<MetricsData>> fetchAllSupportedNationDataForNorthernIreland() {
-        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(NORTHERN_IRELAND, NATION, NORTHERN_IRELAND.getNation().getSupportedMetrics());
+        return endpointRegistry.nhsCovidEndPoint().fetchCovidStatsFor(NORTHERN_IRELAND, NATION, NORTHERN_IRELAND.getNation().getSupportedMetrics().stream().filter(not(Metrics::getIsDeprecated)).collect(Collectors.toList()));
     }
 
 }

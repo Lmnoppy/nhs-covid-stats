@@ -18,6 +18,12 @@ public class NHSCovidEndPoint {
 
     private final WebClient webClient;
 
+    private static final String STRUCTURE = "structure={";
+    private static final String AREA_TYPE_NATION = ";areaType=nation";
+    private static final String AREA_NAME = "areaName=";
+    private static final String FILTERS = "filters=";
+    private static final String AREA_TYPE_REGION = ";areaType=region";
+
     public NHSCovidEndPoint(final String baseURL) {
         this.webClient = WebClient.builder().baseUrl(baseURL).build();
     }
@@ -38,12 +44,12 @@ public class NHSCovidEndPoint {
     }
 
     private String buildRequestFilters(Area area, AreaType areaType){
-        StringBuilder s = new StringBuilder("filters=");
+        StringBuilder s = new StringBuilder(FILTERS);
         switch (areaType) {
             case NATION:
-                    s.append("areaName=").append(area.getNation().getName()).append(";areaType=nation");
+                    s.append(AREA_NAME).append(area.getNation().getName()).append(AREA_TYPE_NATION);
                 break;
-            case REGION : s.append("areaName=").append(area.getRegion()).append(";areaType=region");
+            case REGION : s.append(AREA_NAME).append(area.getRegion()).append(AREA_TYPE_REGION);
                 break;
             case LTLA:
             case UTLA:
@@ -56,7 +62,7 @@ public class NHSCovidEndPoint {
     }
 
     private String buildRequestStructures(List<Metrics> structureList){
-        StringBuilder s = new StringBuilder("structure={");
+        StringBuilder s = new StringBuilder(STRUCTURE);
         structureList.forEach(metric ->
                 s.append("\"").append(metric.getMetricNameValue()).append("\"").append(":").append("\"").append(metric.getMetricNameValue()).append("\"").append(",")
         );

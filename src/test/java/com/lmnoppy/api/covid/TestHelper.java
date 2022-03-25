@@ -16,8 +16,8 @@ public class TestHelper {
         requestStructures.add(Metrics.AREA_CODE);
         requestStructures.add(Metrics.NEW_CASES_BY_PUBLISH_DATE);
         requestStructures.add(Metrics.CUM_CASES_BY_PUBLISH_DATE);
-        requestStructures.add(Metrics.NEW_DEATHS_28_DAYS_BY_PUBLISH_DATE);
-        requestStructures.add(Metrics.CUM_DEATHS_28_DAYS_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.NEW_DEATHS_28DAYS_BY_PUBLISH_DATE);
+        requestStructures.add(Metrics.CUM_DEATHS_28DAYS_BY_PUBLISH_DATE);
         requestStructures.add(Metrics.CUM_CASES_BY_PUBLISH_DATE);
         return requestStructures;
     }

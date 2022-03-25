@@ -21,14 +21,14 @@ Covid-Stats uses the following plugins and tools
 ### Java
 * Java 11 - https://www.microsoft.com/openjdk
 
-### Datasources
+## Datasources
 
 #### NHS API
 https://coronavirus.data.gov.uk/
 
 ## API details
 
-#### fetchNHSCovidStatsFor
+### fetchNHSCovidStatsFor
 Currently, supports getting COVID-19 stats for a given nation in the UK from the NHS API. Support for Region and NHS Region will
 be added at a later date.
 nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)

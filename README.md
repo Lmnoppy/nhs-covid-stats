@@ -21,6 +21,11 @@ Covid-Stats uses the following plugins and tools
 ### Java
 * Java 11 - https://www.microsoft.com/openjdk
 
+### Datasources
+
+#### NHS API
+https://coronavirus.data.gov.uk/
+
 ## API details
 
 #### fetchNHSCovidStatsFor
@@ -46,5 +51,3 @@ The following links are the guides I used to make this project.
 ### Guides
 TODO: describe the data model
 
-#### NHS API
-https://coronavirus.data.gov.uk/ 

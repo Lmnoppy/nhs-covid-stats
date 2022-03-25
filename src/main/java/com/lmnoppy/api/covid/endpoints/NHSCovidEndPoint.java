@@ -1,5 +1,6 @@
 package com.lmnoppy.api.covid.endpoints;
 
+import com.lmnoppy.api.covid.model.AreaTypeNotSupportException;
 import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;
@@ -43,7 +44,7 @@ public class NHSCovidEndPoint {
                 .map(Response::getData);
     }
 
-    private String buildRequestFilters(Area area, AreaType areaType){
+    private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException{
         StringBuilder s = new StringBuilder(FILTERS);
         switch (areaType) {
             case NATION:
@@ -54,7 +55,7 @@ public class NHSCovidEndPoint {
             case LTLA:
             case UTLA:
             case NHSREGION:
-                throw new IllegalArgumentException("Valid filter, but currently not supported, please see Jira: ABC");
+                throw new AreaTypeNotSupportException("Valid filter, but currently not supported, please see Jira: ABC");
             default:
                 throw new IllegalArgumentException("Unrecognized filter");
         }

@@ -23,11 +23,22 @@ Covid-Stats uses the following plugins and tools
 
 ## API details
 
-### fetchNHSCovidStatsFor
+#### fetchNHSCovidStatsFor
 Currently, supports getting COVID-19 stats for a given nation in the UK from the NHS API. Support for Region and NHS Region will
 be added at a later date.
 nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)
 
+#### fetchAllSupportedNationDataForScotland
+Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for Scotland
+
+#### fetchAllSupportedNationDataForEngland
+Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for England
+
+#### fetchAllSupportedNationDataForNorthernIreland
+Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates NorthernIreland
+
+#### fetchAllSupportedNationDataForWales
+Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for Wales
 
 ## Resources
 The following links are the guides I used to make this project.

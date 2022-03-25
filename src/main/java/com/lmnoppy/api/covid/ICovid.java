@@ -19,7 +19,10 @@ public interface ICovid  {
      */
     Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
 
-
+    /**
+     * Fetches all available metrics for the given nation
+     * @return returns a mono list of the metrics.
+     */
     Mono<List<MetricsData>> fetchAllSupportedNationDataForScotland();
     Mono<List<MetricsData>> fetchAllSupportedNationDataForEngland();
     Mono<List<MetricsData>> fetchAllSupportedNationDataForWales();

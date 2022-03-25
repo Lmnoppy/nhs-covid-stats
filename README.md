@@ -33,16 +33,16 @@ Currently, supports getting COVID-19 stats for a given nation in the UK from the
 be added at a later date.
 nhsFetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics)
 
-#### fetchAllSupportedNationDataForScotland
+### fetchAllSupportedNationDataForScotland
 Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for Scotland
 
-#### fetchAllSupportedNationDataForEngland
+### fetchAllSupportedNationDataForEngland
 Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for England
 
-#### fetchAllSupportedNationDataForNorthernIreland
+### fetchAllSupportedNationDataForNorthernIreland
 Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates NorthernIreland
 
-#### fetchAllSupportedNationDataForWales
+### fetchAllSupportedNationDataForWales
 Uses the fetchNHSCovidStatsFor API to get all supported metrics and all dates for Wales
 
 ## Resources

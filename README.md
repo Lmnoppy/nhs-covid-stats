@@ -9,7 +9,7 @@ A library that fetches the latest Covid-19 stats from a source (currently only t
 
 ## TODO:
 * Add LTLA, UTLA and NHSREGION to the NHSCovidEndpoint
-* Add additional sources the world
+* Add additional sources for more regions such as EMEA, APAC, NA
 * Add integration testing (Cucumber)
 * Add validations
 * ~~Add Github build and scan actions~~

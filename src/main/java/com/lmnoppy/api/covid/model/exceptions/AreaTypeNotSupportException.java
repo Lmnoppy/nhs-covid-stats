@@ -1,4 +1,4 @@
-package com.lmnoppy.api.covid.model;
+package com.lmnoppy.api.covid.model.exceptions;
 
 public class AreaTypeNotSupportException extends RuntimeException {
 

@@ -1,6 +1,6 @@
 package com.lmnoppy.api.covid.endpoints;
 
-import com.lmnoppy.api.covid.model.AreaTypeNotSupportException;
+import com.lmnoppy.api.covid.model.exceptions.AreaTypeNotSupportException;
 import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.Response;
 import com.lmnoppy.api.covid.model.enums.Area;

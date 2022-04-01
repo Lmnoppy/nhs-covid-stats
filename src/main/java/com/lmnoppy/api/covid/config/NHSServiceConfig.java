@@ -6,8 +6,10 @@ import com.lmnoppy.api.covid.service.NHSCovidService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource("classpath:application-nhs.properties")
 public class NHSServiceConfig {
 
     public @Bean

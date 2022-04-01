@@ -19,6 +19,8 @@ public class NHSCovidEndPoint {
 
     private final WebClient webClient;
 
+    public static final String LEFT_BRACE = "{";
+    public static final String RIGHT_BRACE = "}";
     private static final String STRUCTURE = "structure={";
     private static final String AREA_TYPE_NATION = ";areaType=nation";
     private static final String AREA_NAME = "areaName=";
@@ -54,7 +56,7 @@ public class NHSCovidEndPoint {
                 break;
             case LTLA:
             case UTLA:
-            case NHSREGION:
+            case NHS_REGION:
                 throw new AreaTypeNotSupportException("Valid filter, but currently not supported, please see Jira: ABC");
             default:
                 throw new IllegalArgumentException("Unrecognized filter");
@@ -68,8 +70,8 @@ public class NHSCovidEndPoint {
                 s.append("\"").append(metric.getMetricNameValue()).append("\"").append(":").append("\"").append(metric.getMetricNameValue()).append("\"").append(",")
         );
         return s.deleteCharAt(s.length() - 1).append("}").toString()
-                .replace("{", "%7B")
+                .replace(LEFT_BRACE, "%7B")
                 .replace("\"", "%22")
-                .replace("}", "%7D");
+                .replace(RIGHT_BRACE, "%7D");
     }
 }

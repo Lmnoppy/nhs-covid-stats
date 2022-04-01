@@ -16,7 +16,6 @@ import static com.lmnoppy.api.covid.model.enums.Area.*;
 import static com.lmnoppy.api.covid.model.enums.AreaType.NATION;
 import static java.util.function.Predicate.not;
 
-@Service
 public class NHSCovidService implements ICovid {
 
     private final EndpointRegistry endpointRegistry;

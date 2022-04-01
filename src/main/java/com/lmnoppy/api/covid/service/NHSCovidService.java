@@ -6,6 +6,7 @@ import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.enums.AreaType;
 import com.lmnoppy.api.covid.model.enums.Metrics;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -15,11 +16,12 @@ import static com.lmnoppy.api.covid.model.enums.Area.*;
 import static com.lmnoppy.api.covid.model.enums.AreaType.NATION;
 import static java.util.function.Predicate.not;
 
-public class CovidService implements ICovid {
+@Service
+public class NHSCovidService implements ICovid {
 
     private final EndpointRegistry endpointRegistry;
 
-    public CovidService( EndpointRegistry endpointRegistry) {
+    public NHSCovidService(EndpointRegistry endpointRegistry) {
         this.endpointRegistry = endpointRegistry;
     }
 

@@ -21,9 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 
-class CovidServiceTest {
+class NHSCovidServiceTest {
 
-    @InjectMocks private CovidService covidService;
+    @InjectMocks private NHSCovidService NHSCovidService;
     @Mock private NHSCovidEndPoint nhsCovidEndPoint;
     @Mock private EndpointRegistry endpointRegistry;
 
@@ -40,7 +40,7 @@ class CovidServiceTest {
         Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
         Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
 
-        Mono<List<MetricsData>> listMono = covidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
+        Mono<List<MetricsData>> listMono = NHSCovidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
 
         assertNotNull(listMono);
         assertEquals(Area.SCOTLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
@@ -56,7 +56,7 @@ class CovidServiceTest {
         Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
         Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
 
-        Mono<List<MetricsData>> listMono = covidService.fetchAllSupportedNationDataForScotland();
+        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForScotland();
 
         assertNotNull(listMono);
         assertEquals(Area.SCOTLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
@@ -72,7 +72,7 @@ class CovidServiceTest {
         Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
         Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.ENGLAND)));
 
-        Mono<List<MetricsData>> listMono = covidService.fetchAllSupportedNationDataForEngland();
+        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForEngland();
 
         assertNotNull(listMono);
         assertEquals(Area.ENGLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
@@ -88,7 +88,7 @@ class CovidServiceTest {
         Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
         Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.WALES)));
 
-        Mono<List<MetricsData>> listMono = covidService.fetchAllSupportedNationDataForWales();
+        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForWales();
 
         assertNotNull(listMono);
         assertEquals(Area.WALES.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
@@ -104,7 +104,7 @@ class CovidServiceTest {
         Mockito.when(endpointRegistry.nhsCovidEndPoint()).thenReturn(nhsCovidEndPoint);
         Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.NORTHERN_IRELAND)));
 
-        Mono<List<MetricsData>> listMono = covidService.fetchAllSupportedNationDataForNorthernIreland();
+        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForNorthernIreland();
 
         assertNotNull(listMono);
         assertEquals(Area.NORTHERN_IRELAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());

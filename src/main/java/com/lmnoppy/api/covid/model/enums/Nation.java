@@ -10,7 +10,6 @@ import static com.lmnoppy.api.covid.model.enums.Nation.NationConstants.UK_NATION
 
 /**
  * Currently only UK Nations supported, in future id like to add other european countries.
- *
  */
 
 @Getter

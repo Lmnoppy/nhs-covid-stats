@@ -9,11 +9,8 @@ A library that fetches the latest Covid-19 stats from a source (currently only t
 
 ## TODO:
 * Add LTLA, UTLA and NHSREGION to the NHSCovidEndpoint
-* Add additional sources for more regions such as EMEA, APAC, NA
 * Add integration testing (Cucumber)
 * Add validations
-* ~~Add Github build and scan actions~~
-* ~~Add Github deployment action to Github Packages~~
 
 ## Requirements
 Covid-Stats uses the following plugins and tools

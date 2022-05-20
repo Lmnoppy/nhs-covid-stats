@@ -9,9 +9,13 @@ import com.lmnoppy.api.covid.model.enums.Metrics;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
 
+import java.time.Duration;
 import java.util.List;
 
 @Slf4j
@@ -19,8 +23,8 @@ public class NHSCovidEndPoint {
 
     private final WebClient webClient;
 
-    public static final String LEFT_BRACE = "{";
-    public static final String RIGHT_BRACE = "}";
+    private static final String LEFT_BRACE = "{";
+    private static final String RIGHT_BRACE = "}";
     private static final String STRUCTURE = "structure={";
     private static final String AREA_TYPE_NATION = ";areaType=nation";
     private static final String AREA_NAME = "areaName=";
@@ -28,11 +32,23 @@ public class NHSCovidEndPoint {
     private static final String AREA_TYPE_REGION = ";areaType=region";
 
     public NHSCovidEndPoint(final String baseURL) {
-        this.webClient = WebClient.builder().baseUrl(baseURL).build();
+        this.webClient = WebClient.builder()
+                .clientConnector(
+                        new ReactorClientHttpConnector(
+                                HttpClient.create()
+                                        .resolver(spec -> spec.queryTimeout(Duration.ofSeconds(10)))
+                                        .compress(true)
+                        ))
+                .exchangeStrategies(
+                        ExchangeStrategies.builder().codecs(clientCodecConfigurer ->
+                                        clientCodecConfigurer.defaultCodecs().maxInMemorySize(5000000))
+                                .build())
+                .baseUrl(baseURL)
+                .build();
     }
 
     public Mono<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
-        log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString() );
+        log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString());
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
@@ -46,13 +62,14 @@ public class NHSCovidEndPoint {
                 .map(Response::getData);
     }
 
-    private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException{
+    private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException {
         StringBuilder s = new StringBuilder(FILTERS);
         switch (areaType) {
             case NATION:
-                    s.append(AREA_NAME).append(area.getNation().getName()).append(AREA_TYPE_NATION);
+                s.append(AREA_NAME).append(area.getNation().getName()).append(AREA_TYPE_NATION);
                 break;
-            case REGION : s.append(AREA_NAME).append(area.getRegion()).append(AREA_TYPE_REGION);
+            case REGION:
+                s.append(AREA_NAME).append(area.getRegion()).append(AREA_TYPE_REGION);
                 break;
             case LTLA:
             case UTLA:
@@ -64,7 +81,7 @@ public class NHSCovidEndPoint {
         return s.append("&").toString();
     }
 
-    private String buildRequestStructures(List<Metrics> structureList){
+    private String buildRequestStructures(List<Metrics> structureList) {
         StringBuilder s = new StringBuilder(STRUCTURE);
         structureList.forEach(metric ->
                 s.append("\"").append(metric.getMetricNameValue()).append("\"").append(":").append("\"").append(metric.getMetricNameValue()).append("\"").append(",")

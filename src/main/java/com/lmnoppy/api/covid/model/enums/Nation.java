@@ -2,11 +2,10 @@ package com.lmnoppy.api.covid.model.enums;
 
 import lombok.Getter;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.lmnoppy.api.covid.model.enums.Metrics.*;
-import static com.lmnoppy.api.covid.model.enums.Nation.NationConstants.UK_NATIONS_SUPPORTED_METRICS;
+import static com.lmnoppy.api.covid.model.enums.Nation.NationConstants.NATIONS_SUPPORTED_METRICS;
 
 /**
  * Currently only UK Nations supported, in future id like to add other european countries.
@@ -15,12 +14,10 @@ import static com.lmnoppy.api.covid.model.enums.Nation.NationConstants.UK_NATION
 @Getter
 public enum Nation {
 
-    SCOTLAND("Scotland", UK_NATIONS_SUPPORTED_METRICS),
-    WALES("Wales", UK_NATIONS_SUPPORTED_METRICS),
-    NORTHERN_IRELAND("Northern Ireland", UK_NATIONS_SUPPORTED_METRICS),
-    ENGLAND("England", UK_NATIONS_SUPPORTED_METRICS),
-    GERMANY("Germany", Collections.emptyList()),
-    FRANCE("France", Collections.emptyList());
+    SCOTLAND("Scotland", NATIONS_SUPPORTED_METRICS),
+    WALES("Wales", NATIONS_SUPPORTED_METRICS),
+    NORTHERN_IRELAND("Northern Ireland", NATIONS_SUPPORTED_METRICS),
+    ENGLAND("England", NATIONS_SUPPORTED_METRICS);
 
     private final String name;
     private final List<Metrics> supportedMetrics;
@@ -31,8 +28,8 @@ public enum Nation {
 
     //Error: illegal forward reference fix
     static class NationConstants {
-        static final List<Metrics> UK_NATIONS_SUPPORTED_METRICS = List.of(CUM_ADMISSIONS, COVID_OCCUPIED_MV_BEDS, CUM_ADMISSIONS_BY_AGE, CUM_CASES_BY_PUBLISH_DATE, CUM_CASES_BY_PUBLISH_DATE_RATE, CUM_CASES_LFD_CONFIRMED_PCR_BY_SPECIMEN_DATE,
-                CUM_CASES_LFD_ONLY_BY_SPECIMEN_DATE, CUM_CASES_PCR_ONLY_BY_SPECIMEN_DATE, CUM_DAILY_NSO_DEATHS_BY_DEATH_DATE, CUM_DEATHS_28DAYS_BY_DEATH_DATE,
+        static final List<Metrics> NATIONS_SUPPORTED_METRICS = List.of(DATE, AREA_NAME, AREA_CODE, CUM_ADMISSIONS, COVID_OCCUPIED_MV_BEDS, CUM_ADMISSIONS_BY_AGE, CUM_CASES_BY_PUBLISH_DATE, CUM_CASES_BY_PUBLISH_DATE_RATE,
+                CUM_CASES_LFD_CONFIRMED_PCR_BY_SPECIMEN_DATE, CUM_CASES_LFD_ONLY_BY_SPECIMEN_DATE, CUM_CASES_PCR_ONLY_BY_SPECIMEN_DATE, CUM_DAILY_NSO_DEATHS_BY_DEATH_DATE, CUM_DEATHS_28DAYS_BY_DEATH_DATE,
                 CUM_DEATHS_28DAYS_BY_DEATH_DATE_RATE, CUM_DEATHS_28DAYS_BY_PUBLISH_DATE_RATE, CUM_DEATHS60_DAYS_BY_DEATH_DATE, CUM_DEATHS_60DAYS_BY_DEATH_DATE_RATE,
                 CUM_DEATHS_60DAYS_BY_DEATH_DATE_RATE, CUM_DEATHS_60DAYS_BY_PUBLISH_DATE, CUM_DEATHS_60DAYS_BY_PUBLISH_DATE_RATE, CUM_FIRST_EPISODES_BY_SPECIMEN_DATE,
                 CUM_FIRST_EPISODES_BY_SPECIMEN_DATE_RATE, CUM_FIRST_EPISODES_BY_SPECIMEN_DATE_RATE, CUM_LFD_TESTS_BY_SPECIMEN_DATE, CUM_ONS_DEATHS_BY_REGISTRATION_DATE,

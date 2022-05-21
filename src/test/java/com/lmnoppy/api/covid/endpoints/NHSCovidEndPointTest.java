@@ -71,11 +71,11 @@ class NHSCovidEndPointTest {
         RecordedRequest recordedRequest = mockBackEnd.takeRequest();
 
         assertEquals("GET", recordedRequest.getMethod());
-        assertEquals("/?filters%3DareaName%3D"+area.getNation().getName().replace(" ", "%20") + ";areaType%3Dnation%26&structure%3D%257B"
-                + "%2522date%2522:%2522date%2522,%2522areaName%2522:%2522areaName%2522,%2522areaCode%2522:%2522areaCode%2522,"
-                + "%2522newCasesByPublishDate%2522:%2522newCasesByPublishDate%2522,%2522cumCasesByPublishDate%2522:%2522cumCasesByPublishDate%2522,"
-                + "%2522newDeaths28DaysByPublishDate%2522:%2522newDeaths28DaysByPublishDate%2522,%2522cumDeaths28DaysByPublishDate%2522:%2522cumDeaths28DaysByPublishDate%2522,"
-                + "%2522cumCasesByPublishDate%2522:%2522cumCasesByPublishDate%2522%257D", recordedRequest.getPath());
+        assertEquals("/?filters=areaName="+ area.getNation().getName().replace(" ", "%20") + ";areaType=nation&&structure=%7B"
+                + "%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,"
+                + "%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,"
+                + "%22newDeaths28DaysByPublishDate%22:%22newDeaths28DaysByPublishDate%22,%22cumDeaths28DaysByPublishDate%22:%22cumDeaths28DaysByPublishDate%22,"
+                + "%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22%7D", recordedRequest.getPath());
     }
 
     private String metricsResponseBuilder(Area area) throws JsonProcessingException {

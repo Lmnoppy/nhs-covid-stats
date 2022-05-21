@@ -12,69 +12,86 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriUtils;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 
+/*
+ I hate JSON in GET requests, just make it a POST!
+ */
 @Slf4j
 public class NHSCovidEndPoint {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
+    private final String baseURL;
 
     private static final String LEFT_BRACE = "{";
     private static final String RIGHT_BRACE = "}";
-    private static final String STRUCTURE = "structure={";
+    private static final String STRUCTURE = "structure=" + LEFT_BRACE;
     private static final String AREA_TYPE_NATION = ";areaType=nation";
     private static final String AREA_NAME = "areaName=";
     private static final String FILTERS = "filters=";
     private static final String AREA_TYPE_REGION = ";areaType=region";
 
     public NHSCovidEndPoint(final String baseURL) {
-        this.webClient = WebClient.builder()
+        this.webClient = WebClient.builder();
+        this.baseURL = baseURL;
+    }
+
+    private WebClient generateWebClient (){
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseURL);
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        return webClient
                 .clientConnector(
-                        new ReactorClientHttpConnector(
-                                HttpClient.create()
-                                        .resolver(spec -> spec.queryTimeout(Duration.ofSeconds(10)))
-                                        .compress(true)
-                        ))
+                        new ReactorClientHttpConnector(HttpClient.create()
+                                .resolver(spec -> spec.queryTimeout(Duration.ofSeconds(10)))
+                                .compress(true)))
                 .exchangeStrategies(
-                        ExchangeStrategies.builder().codecs(clientCodecConfigurer ->
-                                        clientCodecConfigurer.defaultCodecs().maxInMemorySize(5000000))
+                        ExchangeStrategies.builder().codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(5000000))
                                 .build())
-                .baseUrl(baseURL)
+                .uriBuilderFactory(factory)
                 .build();
     }
 
     public Mono<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
         log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString());
-        return webClient.get()
-                .uri(uriBuilder ->
-                        uriBuilder
-                                .queryParam(buildRequestFilters(area, areaType))
-                                .queryParam(buildRequestStructures(metricsList))
-                                .build()
-                )
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .retrieve()
+        var request =  generateWebClient().get()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam(buildRequestFilters(area, areaType))
+                        .queryParam(buildRequestStructures(metricsList))
+                        .build())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        var result = request.retrieve()
                 .bodyToMono(Response.class)
-                .map(Response::getData);
+                .map(response -> {
+                    List<MetricsData> m = response.getData();
+                    log.info("Response size is: {}", m.size());
+                    return m;
+                });
+        return result;
     }
 
     private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException {
         StringBuilder s = new StringBuilder(FILTERS);
         switch (areaType) {
             case NATION:
-                s.append(AREA_NAME).append(area.getNation().getName()).append(AREA_TYPE_NATION);
+                s.append(AREA_NAME).append(area.getNation().getName().replace(" ", "%20")).append(AREA_TYPE_NATION);
                 break;
             case REGION:
                 s.append(AREA_NAME).append(area.getRegion()).append(AREA_TYPE_REGION);
                 break;
             case LTLA:
             case UTLA:
+            case OVERVIEW:
             case NHS_REGION:
-                throw new AreaTypeNotSupportException("Valid filter, but currently not supported, please see Jira: ABC");
+                throw new AreaTypeNotSupportException("Valid filter, but currently not supported");
             default:
                 throw new IllegalArgumentException("Unrecognized filter");
         }

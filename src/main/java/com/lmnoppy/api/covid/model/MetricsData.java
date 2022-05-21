@@ -9,7 +9,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MetricsData implements Serializable {
 
-    private static final long serialVersionUID = 991286172506130502L;
+    private static final long serialVersionUID = -417331668877851283L;
 
     private String date;
 
@@ -23,6 +23,7 @@ public class MetricsData implements Serializable {
     private String cumDeaths28DaysByPublishDateRate;
     private String covidOccupiedMVBeds;
     private String cumAdmissions;
+    private String[] cumAdmissionsByAge;
     private String cumCasesPCROnlyBySpecimenDate;
     private String cumDailyNsoDeathsByDeathDate;
     private String cumDeaths28DaysByDeathDate;
@@ -69,11 +70,11 @@ public class MetricsData implements Serializable {
     private String cumVirusTestsBySpecimenDate;
     private String cumWeeklyNsoDeathsByRegDate;
     private String cumWeeklyNsoDeathsByRegDateRate;
-    private String femaleCases;
-    private String femaleDeaths28Days;
+    private Age[] femaleCases;
+    private Age[] femaleDeaths28Days;
     private String hospitalCases;
-    private String maleCases;
-    private String maleDeaths28Days;
+    private Age[] maleCases;
+    private Age[] maleDeaths28Days;
     private String newAdmissions;
     private String newAdmissionsChange;
     private String newAdmissionsChangePercentage;

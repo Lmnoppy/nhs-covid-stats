@@ -14,7 +14,7 @@ public interface ICovid  {
      * Reusable generic service call
      * @param area Area name that you are searching for
      * @param areaType This can be nation, NHS region etc...
-     * @param metrics The metics you wish to return, please note, that not all Area types support all metrics
+     * @param metrics The metrics you wish to return, please note, that not all Area types support all metrics
      * @return returns a mono list of the metrics.
      */
     Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);

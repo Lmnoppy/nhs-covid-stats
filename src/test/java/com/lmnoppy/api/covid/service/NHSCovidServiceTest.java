@@ -78,7 +78,7 @@ class NHSCovidServiceTest {
 
     @Test
     void fetchAllSupportedNationDataForEngland() throws IOException {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData()));
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
         Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForEngland();
         StepVerifier.create(jsonNodeFlux)
@@ -94,7 +94,7 @@ class NHSCovidServiceTest {
 
     @Test
     void fetchAllSupportedNationDataForWales() throws IOException {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData()));
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
         Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForWales();
         StepVerifier.create(jsonNodeFlux)
@@ -110,7 +110,7 @@ class NHSCovidServiceTest {
 
     @Test
     void fetchAllSupportedNationDataForNorthernIreland() throws IOException {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData()));
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
         Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForNorthernIreland();
         StepVerifier.create(jsonNodeFlux)

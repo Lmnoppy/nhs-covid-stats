@@ -1,24 +1,25 @@
 package com.lmnoppy.api.covid.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lmnoppy.api.covid.TestHelper;
 import com.lmnoppy.api.covid.endpoints.NHSCovidEndPoint;
-import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.AreaType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.stream.StreamSupport;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 
 class NHSCovidServiceTest {
 
@@ -34,66 +35,91 @@ class NHSCovidServiceTest {
     }
 
     @Test
-    void nhsFetchCovidStatsFor() {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
+    void nhsFetchCovidStatsFor() throws IOException {
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
-        Mono<List<MetricsData>> listMono = NHSCovidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
-
-        assertNotNull(listMono);
-        assertEquals(Area.SCOTLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
-
+        Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
+        StepVerifier.create(jsonNodeFlux)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    Assertions.assertTrue(StreamSupport.stream(metric.spliterator(), true)
+                            .filter(j -> j.get("areaName") != null)
+                            .allMatch(
+                                    j -> Area.valueOf(j.get("areaName").asText().toUpperCase(Locale.ROOT)).equals(Area.SCOTLAND))
+                    );
+                    return true;
+                })
+                .verifyComplete();
         Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
     }
 
     @Test
-    void fetchAllSupportedNationDataForScotland() {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.SCOTLAND)));
+    void fetchAllSupportedNationDataForScotland() throws IOException {
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(eq(Area.SCOTLAND), eq(AreaType.NATION), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
-        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForScotland();
+        Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForScotland();
+        StepVerifier.create(jsonNodeFlux)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    Assertions.assertTrue(StreamSupport.stream(metric.spliterator(), true)
+                                .filter(j -> j.get("areaName") != null)
+                                .allMatch(
+                                        j -> Area.valueOf(j.get("areaName").asText().toUpperCase(Locale.ROOT)).equals(Area.SCOTLAND))
+                        );
+                    return true;
+                })
+                .verifyComplete();
+        Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(eq(Area.SCOTLAND), eq(AreaType.NATION), anyList());
+        Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
+    }
 
-        assertNotNull(listMono);
-        assertEquals(Area.SCOTLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
+    @Test
+    void fetchAllSupportedNationDataForEngland() throws IOException {
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
+        Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForEngland();
+        StepVerifier.create(jsonNodeFlux)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    return true;
+                })
+                .verifyComplete();
         Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
     }
 
     @Test
-    void fetchAllSupportedNationDataForEngland() {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.ENGLAND)));
+    void fetchAllSupportedNationDataForWales() throws IOException {
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
-        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForEngland();
-
-        assertNotNull(listMono);
-        assertEquals(Area.ENGLAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
-
+        Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForWales();
+        StepVerifier.create(jsonNodeFlux)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    return true;
+                })
+                .verifyComplete();
         Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
     }
 
     @Test
-    void fetchAllSupportedNationDataForWales() {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.WALES)));
+    void fetchAllSupportedNationDataForNorthernIreland() throws IOException {
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
-        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForWales();
-
-        assertNotNull(listMono);
-        assertEquals(Area.WALES.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
-
-        Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
-        Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
-    }
-
-    @Test
-    void fetchAllSupportedNationDataForNorthernIreland() {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Mono.just(testHelper.mockedData(Area.NORTHERN_IRELAND)));
-
-        Mono<List<MetricsData>> listMono = NHSCovidService.fetchAllSupportedNationDataForNorthernIreland();
-
-        assertNotNull(listMono);
-        assertEquals(Area.NORTHERN_IRELAND.getNation().getName(), Objects.requireNonNull(listMono.block()).get(0).getAreaName());
-
+        Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchAllSupportedNationDataForNorthernIreland();
+        StepVerifier.create(jsonNodeFlux)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    return true;
+                })
+                .verifyComplete();
         Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);
     }

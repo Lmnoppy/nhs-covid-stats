@@ -15,6 +15,8 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -57,14 +59,15 @@ class NHSCovidEndPointTest {
         Area area = Area.SCOTLAND;
         mockBackEnd.enqueue(new MockResponse()
                 .setBody(metricsResponseBuilder(area))
-                .addHeader("Content-Type", "application/json"));
+                .addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_NDJSON_VALUE));
 
         Flux<JsonNode> testMono = NHSCovidEndPoint.fetchCovidStatsFor(area, AreaType.NATION, requestStructures);
 
         StepVerifier.create(testMono)
                 .expectNextMatches(metric ->
-                        metric.get("data").get(1).get("areaName").asText().equals(area.getNation().getName())
+                        metric.get("areaName").asText().equals(area.getNation().getName())
                 )
+                .thenConsumeWhile(a -> true)
                 .verifyComplete();
 
         RecordedRequest recordedRequest = mockBackEnd.takeRequest();

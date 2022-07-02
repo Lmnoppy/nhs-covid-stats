@@ -17,7 +17,6 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -37,19 +36,20 @@ class NHSCovidServiceTest {
 
     @Test
     void nhsFetchCovidStatsFor() throws IOException {
-        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData()));
+        Mockito.when(nhsCovidEndPoint.fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList())).thenReturn(Flux.just(testHelper.jsonNodeData().get("data")));
 
         Flux<JsonNode> jsonNodeFlux = NHSCovidService.fetchNHSCovidStatsFor(Area.SCOTLAND, AreaType.NATION, testHelper.requestStructure());
         StepVerifier.create(jsonNodeFlux)
-                .expectNextMatches(metric -> {
-                            Assertions.assertNotNull(metric);
-                            Assertions.assertEquals(Area.valueOf(
-                                            metric.get("areaName").asText().equalsIgnoreCase("NORTHERN IRELAND") ? "NORTHERN_IRELAND" : metric.get("areaName").asText().toUpperCase(Locale.ROOT)),
-                                    Area.SCOTLAND);
-                            return true;
-                        }
-                )
-                .thenConsumeWhile(x -> true)
+                .thenConsumeWhile(metric -> {
+                    Assertions.assertNotNull(metric);
+                    Assertions.assertEquals(61, metric.size());
+                    Assertions.assertTrue(StreamSupport.stream(metric.spliterator(), true)
+                            .filter(j -> j.get("areaName") != null)
+                            .allMatch(
+                                    j -> Area.valueOf(j.get("areaName").asText().toUpperCase(Locale.ROOT)).equals(Area.SCOTLAND))
+                    );
+                    return true;
+                })
                 .verifyComplete();
         Mockito.verify(nhsCovidEndPoint, Mockito.times(1)).fetchCovidStatsFor(any(Area.class), any(AreaType.class), anyList());
         Mockito.verifyNoMoreInteractions(nhsCovidEndPoint);

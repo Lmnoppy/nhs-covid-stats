@@ -1,10 +1,10 @@
 package com.lmnoppy.api.covid;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lmnoppy.api.covid.model.enums.Area;
-import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.enums.AreaType;
 import com.lmnoppy.api.covid.model.enums.Metrics;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ public interface ICovid  {
      * @param metrics The metrics you wish to return, please note, that not all Area types support all metrics
      * @return returns a mono list of the metrics.
      */
-    Mono<List<MetricsData>> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
+    Flux<JsonNode> fetchNHSCovidStatsFor(Area area, AreaType areaType, List<Metrics> metrics);
 
     /**
      * Fetches all available metrics for the given nation
      * @return returns a mono list of the metrics.
      */
-    Mono<List<MetricsData>> fetchAllSupportedNationDataForScotland();
-    Mono<List<MetricsData>> fetchAllSupportedNationDataForEngland();
-    Mono<List<MetricsData>> fetchAllSupportedNationDataForWales();
-    Mono<List<MetricsData>> fetchAllSupportedNationDataForNorthernIreland();
+    Flux<JsonNode> fetchAllSupportedNationDataForScotland();
+    Flux<JsonNode> fetchAllSupportedNationDataForEngland();
+    Flux<JsonNode> fetchAllSupportedNationDataForWales();
+    Flux<JsonNode> fetchAllSupportedNationDataForNorthernIreland();
 }

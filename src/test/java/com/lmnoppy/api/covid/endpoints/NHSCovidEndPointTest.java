@@ -1,6 +1,7 @@
 package com.lmnoppy.api.covid.endpoints;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lmnoppy.api.covid.TestHelper;
 import com.lmnoppy.api.covid.model.MetricsData;
@@ -14,6 +15,7 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -48,23 +50,20 @@ class NHSCovidEndPointTest {
         NHSCovidEndPoint = new NHSCovidEndPoint(baseUrl);
     }
 
-    @ParameterizedTest()
-    @EnumSource(Area.class)
+    @Test()
     @DisplayName("Covid Stats for different nations from the NHS Endpoint")
-    void covidStatsForNation(Area area) throws InterruptedException, JsonProcessingException {
+    void covidStatsForNation() throws InterruptedException, JsonProcessingException {
         List<Metrics> requestStructures = testHelper.requestStructure();
-
+        Area area = Area.SCOTLAND;
         mockBackEnd.enqueue(new MockResponse()
                 .setBody(metricsResponseBuilder(area))
                 .addHeader("Content-Type", "application/json"));
 
-        Mono<List<MetricsData>> testMono = NHSCovidEndPoint.fetchCovidStatsFor(area, AreaType.NATION, requestStructures);
+        Flux<JsonNode> testMono = NHSCovidEndPoint.fetchCovidStatsFor(area, AreaType.NATION, requestStructures);
 
         StepVerifier.create(testMono)
                 .expectNextMatches(metric ->
-                        metric.get(0).getAreaName().equals(area.getNation().getName())
-                        && metric.get(0).getAreaCode().equals(area.getAreaCode())
-                        && metric.get(0).getDate().equals("2021-12-15")
+                        metric.get("data").get(1).get("areaName").asText().equals(area.getNation().getName())
                 )
                 .verifyComplete();
 

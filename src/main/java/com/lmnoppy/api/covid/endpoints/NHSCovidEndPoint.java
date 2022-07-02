@@ -1,5 +1,6 @@
 package com.lmnoppy.api.covid.endpoints;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lmnoppy.api.covid.model.exceptions.AreaTypeNotSupportException;
 import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.Response;
@@ -9,12 +10,14 @@ import com.lmnoppy.api.covid.model.enums.Metrics;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
@@ -54,13 +57,16 @@ public class NHSCovidEndPoint {
                                 .resolver(spec -> spec.queryTimeout(Duration.ofSeconds(10)))
                                 .compress(true)))
                 .exchangeStrategies(
-                        ExchangeStrategies.builder().codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(5000000))
+                        ExchangeStrategies.builder()
+                                .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs()
+                                        .maxInMemorySize(5000000))
                                 .build())
                 .uriBuilderFactory(factory)
                 .build();
     }
 
-    public Mono<List<MetricsData>> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
+    //TODO: add error handling and bubble up custom exception based on error.
+    public Flux<JsonNode> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
         log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString());
         var request =  generateWebClient().get()
                 .uri(uriBuilder -> uriBuilder
@@ -68,14 +74,9 @@ public class NHSCovidEndPoint {
                         .queryParam(buildRequestStructures(metricsList))
                         .build())
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        var result = request.retrieve()
-                .bodyToMono(Response.class)
-                .map(response -> {
-                    List<MetricsData> m = response.getData();
-                    log.info("Response size is: {}", m.size());
-                    return m;
-                });
-        return result;
+        log.debug("request URI: {}", request.httpRequest(ClientHttpRequest::getURI));
+        return request.retrieve()
+                .bodyToFlux(JsonNode.class);
     }
 
     private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException {

@@ -1,9 +1,13 @@
 package com.lmnoppy.api.covid;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lmnoppy.api.covid.model.MetricsData;
 import com.lmnoppy.api.covid.model.enums.Area;
 import com.lmnoppy.api.covid.model.enums.Metrics;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +24,11 @@ public class TestHelper {
         requestStructures.add(Metrics.CUM_DEATHS_28DAYS_BY_PUBLISH_DATE);
         requestStructures.add(Metrics.CUM_CASES_BY_PUBLISH_DATE);
         return requestStructures;
+    }
+
+    public JsonNode jsonNodeData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.reader().readValue(this.getClass().getResource("exampleScotlandNationResponseJson.json"), JsonNode.class);
     }
 
     public List<MetricsData> mockedData(Area area){

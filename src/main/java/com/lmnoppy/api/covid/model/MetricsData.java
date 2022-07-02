@@ -23,7 +23,7 @@ public class MetricsData implements Serializable {
     private String cumDeaths28DaysByPublishDateRate;
     private String covidOccupiedMVBeds;
     private String cumAdmissions;
-    private String[] cumAdmissionsByAge;
+    private Age[] cumAdmissionsByAge;
     private String cumCasesPCROnlyBySpecimenDate;
     private String cumDailyNsoDeathsByDeathDate;
     private String cumDeaths28DaysByDeathDate;

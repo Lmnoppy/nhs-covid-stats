@@ -56,11 +56,7 @@ public class NHSCovidEndPoint {
                         new ReactorClientHttpConnector(HttpClient.create()
                                 .resolver(spec -> spec.queryTimeout(Duration.ofSeconds(10)))
                                 .compress(true)))
-                .exchangeStrategies(
-                        ExchangeStrategies.builder()
-                                .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs()
-                                        .maxInMemorySize(5000000))
-                                .build())
+                .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(5000000))
                 .uriBuilderFactory(factory)
                 .build();
     }
@@ -73,10 +69,14 @@ public class NHSCovidEndPoint {
                         .queryParam(buildRequestFilters(area, areaType))
                         .queryParam(buildRequestStructures(metricsList))
                         .build())
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        log.debug("request URI: {}", request.httpRequest(ClientHttpRequest::getURI));
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_NDJSON_VALUE);
+        log.info("request URI: {}", request.httpRequest(ClientHttpRequest::getURI));
         return request.retrieve()
-                .bodyToFlux(JsonNode.class);
+                .bodyToFlux(JsonNode.class)
+                .flatMapIterable(jsonNode -> jsonNode.get("data"));
+                //.doOnNext(jsonNode -> {
+                //    log.info("webclient is: {}", jsonNode);
+                //});
     }
 
     private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException {

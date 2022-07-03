@@ -61,7 +61,6 @@ public class NHSCovidEndPoint {
                 .build();
     }
 
-    //TODO: add error handling and bubble up custom exception based on error.
     public Flux<JsonNode> fetchCovidStatsFor(Area area, AreaType areaType, List<Metrics> metricsList) {
         log.info("Making rest call to NHS end point for {}, {} with metrics: {}", area, areaType, metricsList.toString());
         var request =  generateWebClient().get()

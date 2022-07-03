@@ -63,7 +63,7 @@ public class NHSSteps {
         StepVerifier.create(jsonNodeFlux)
                 .expectNextMatches(metric -> {
                             Assertions.assertNotNull(metric);
-                            Assertions.assertEquals(Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)), Area.SCOTLAND);
+                            Assertions.assertEquals(Area.SCOTLAND, Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)));
                             return true;
                         }
                 )
@@ -77,7 +77,7 @@ public class NHSSteps {
         StepVerifier.create(jsonNodeFlux)
                 .expectNextMatches(metric -> {
                             Assertions.assertNotNull(metric);
-                            Assertions.assertEquals(Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)), Area.WALES);
+                            Assertions.assertEquals(Area.WALES, Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)));
                             return true;
                         }
                 )
@@ -91,7 +91,7 @@ public class NHSSteps {
         StepVerifier.create(jsonNodeFlux)
                 .expectNextMatches(metric -> {
                             Assertions.assertNotNull(metric);
-                            Assertions.assertEquals(Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)), Area.ENGLAND);
+                            Assertions.assertEquals(Area.ENGLAND, Area.valueOf(metric.get("areaName").asText().toUpperCase(Locale.ROOT)));
                             return true;
                         }
                 )
@@ -105,9 +105,9 @@ public class NHSSteps {
         StepVerifier.create(jsonNodeFlux)
                 .expectNextMatches(metric -> {
                             Assertions.assertNotNull(metric);
-                            Assertions.assertEquals(Area.valueOf(
-                                            metric.get("areaName").asText().equalsIgnoreCase("NORTHERN IRELAND") ? "NORTHERN_IRELAND" : metric.get("areaName").asText().toUpperCase(Locale.ROOT)),
-                                    Area.NORTHERN_IRELAND);
+                            Assertions.assertEquals(
+                                    Area.NORTHERN_IRELAND,
+                                    Area.valueOf(metric.get("areaName").asText().equalsIgnoreCase("NORTHERN IRELAND") ? "NORTHERN_IRELAND" : metric.get("areaName").asText().toUpperCase(Locale.ROOT)));
                             return true;
                         }
                 )

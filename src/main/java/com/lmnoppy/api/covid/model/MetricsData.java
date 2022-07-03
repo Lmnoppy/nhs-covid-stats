@@ -149,7 +149,7 @@ public class MetricsData implements Serializable {
     private String uniqueCasePositivityBySpecimenDateRollingSum;
     private String uniquePeopleTestedBySpecimenDateRollingSum;
     private String vaccinationsAgeDemographics;
-    private String VaccineRegisterPopulationByVaccinationDate;
+    private String vaccineRegisterPopulationByVaccinationDate;
     private String weeklyPeopleVaccinatedFirstDoseByVaccinationDate;
     private String weeklyPeopleVaccinatedSecondDoseByVaccinationDate;
     private String newPillarOneTestsByPublishDate;

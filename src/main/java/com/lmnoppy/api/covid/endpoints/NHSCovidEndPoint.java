@@ -74,9 +74,6 @@ public class NHSCovidEndPoint {
         return request.retrieve()
                 .bodyToFlux(JsonNode.class)
                 .flatMapIterable(jsonNode -> jsonNode.get("data"));
-                //.doOnNext(jsonNode -> {
-                //    log.info("webclient is: {}", jsonNode);
-                //});
     }
 
     private String buildRequestFilters(Area area, AreaType areaType) throws AreaTypeNotSupportException, IllegalArgumentException {
